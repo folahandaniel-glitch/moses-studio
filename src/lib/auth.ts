@@ -28,7 +28,7 @@ export async function getAdmin(): Promise<AdminUser | null> {
   const session = await verifySession(token);
   if (!session) return null;
   const [row] = await sql<(AdminUser & { token_version: number; active: boolean })[]>`
-    select id, email, name, role, token_version, active from admin_users where id = ${session.uid}`;
+    select id, email, name, role, token_version, active from ms_admin_users where id = ${session.uid}`;
   if (!row || !row.active || row.token_version !== session.tv) return null;
   return { id: row.id, email: row.email, name: row.name, role: row.role };
 }

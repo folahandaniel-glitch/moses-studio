@@ -16,9 +16,9 @@ export default async function ProjectsPage({ searchParams }: { searchParams: Sea
   const state = first(sp.state);
   const rows = await sql<Row[]>`
     select p.id, p.title, p.slug, p.status, p.featured, p.published, p.featured_image_url, c.name as category_name
-    from projects p left join categories c on c.id = p.category_id
+    from ms_projects p left join ms_categories c on c.id = p.category_id
     where (${q} = '' or p.title ilike ${"%" + q.replace(/[%_]/g, "") + "%"})
-      and (${status ?? null}::project_status is null or p.status = ${status ?? null}::project_status)
+      and (${status ?? null}::ms_project_status is null or p.status = ${status ?? null}::ms_project_status)
       and (${state ?? ""} = '' or (${state ?? ""} = 'published' and p.published) or (${state ?? ""} = 'draft' and not p.published))
     order by p.sort_order, p.created_at desc`;
   const total = rows.length;

@@ -28,12 +28,12 @@ export default async function ProjectEditPage({ params, searchParams }: { params
   if (id !== "new") {
     if (!/^[0-9a-f-]{36}$/i.test(id)) notFound();
     const [row] = await sql<Project[]>`select id, title, slug, short_description, full_description, category_id, status, featured_image_url, video_url, client_name, location,
-      project_date::text, completion_date::text, services_provided, tools_used, external_url, sort_order, featured, published, seo_title, seo_description from projects where id = ${id}`;
+      project_date::text, completion_date::text, services_provided, tools_used, external_url, sort_order, featured, published, seo_title, seo_description from ms_projects where id = ${id}`;
     if (!row) notFound();
     project = row;
-    gallery = await sql<{ url: string; alt: string }[]>`select url, alt from project_images where project_id = ${id} order by sort_order`;
+    gallery = await sql<{ url: string; alt: string }[]>`select url, alt from ms_project_images where project_id = ${id} order by sort_order`;
   }
-  const categories = await sql<{ id: string; name: string }[]>`select id, name from categories order by sort_order, name`;
+  const categories = await sql<{ id: string; name: string }[]>`select id, name from ms_categories order by sort_order, name`;
   const isNew = id === "new";
   const section = (title: string, children: React.ReactNode) => <section className="admin-card space-y-5"><h2 className="text-lg font-semibold">{title}</h2>{children}</section>;
 

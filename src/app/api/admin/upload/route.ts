@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
   try {
     const stored = await storeImage(file);
     const [row] = await sql<{ id: string }[]>`
-      insert into media (url, filename, mime_type, size_bytes, width, height, uploaded_by)
+      insert into ms_media (url, filename, mime_type, size_bytes, width, height, uploaded_by)
       values (${stored.url}, ${stored.filename}, ${stored.mimeType}, ${stored.sizeBytes}, ${stored.width}, ${stored.height}, ${admin.id}) returning id`;
     await logActivity(admin, "media.uploaded", "media", row.id, stored.filename);
     return NextResponse.json({ id: row.id, url: stored.url });

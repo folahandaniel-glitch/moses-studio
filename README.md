@@ -93,4 +93,4 @@ The release was also verified in a real browser (Chromium): all breakpoints from
 
 ## Shared databases
 
-The app keeps all of its tables in its own PostgreSQL schema (`moses_studio` by default, change with `DB_SCHEMA`), so it can safely share a database with other applications without name clashes. If the host provides `DATABASE_URL_UNPOOLED` it is preferred, because direct connections support the schema setting.
+Every table and type of this app is prefixed `ms_` (for example `ms_projects`), so it can safely share a PostgreSQL database with other applications without name clashes. Migrations only ever create or change `ms_` objects. If the host provides `DATABASE_URL_UNPOOLED` it is used for migrations; the running site uses `DATABASE_URL`.

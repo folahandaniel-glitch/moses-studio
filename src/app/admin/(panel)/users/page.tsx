@@ -8,7 +8,7 @@ import { createUser, deleteUser, resetUserPassword, setUserActive } from "../../
 export default async function UsersPage({ searchParams }: { searchParams: SearchParams }) {
   const me = await requireSuperAdmin();
   const sp = await searchParams;
-  const users = await sql<{ id: string; email: string; name: string; role: string; active: boolean; last_login_at: Date | null }[]>`select id, email, name, role, active, last_login_at from admin_users order by created_at`;
+  const users = await sql<{ id: string; email: string; name: string; role: string; active: boolean; last_login_at: Date | null }[]>`select id, email, name, role, active, last_login_at from ms_admin_users order by created_at`;
   return (
     <>
       <PageHeader title="Users" description="Administrators who can sign in to this dashboard. Only Super Admins can manage users." sp={{ notice: first(sp.notice), error: first(sp.error) }} />

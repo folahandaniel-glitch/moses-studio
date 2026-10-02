@@ -49,7 +49,7 @@ export async function submitContact(_prev: ContactState, form: FormData): Promis
       return { status: "error", message: "Too many messages from this connection. Please try again later or contact us by phone or WhatsApp.", values };
     }
     const d = parsed.data;
-    await sql`insert into contact_submissions (name, email, phone, subject, message) values (${d.name}, ${d.email}, ${d.phone ?? ""}, ${d.subject}, ${d.message})`;
+    await sql`insert into ms_contact_submissions (name, email, phone, subject, message) values (${d.name}, ${d.email}, ${d.phone ?? ""}, ${d.subject}, ${d.message})`;
     const { blocks } = await getSiteData();
     await notifyByEmail(blocks.contact.notify_email || process.env.CONTACT_NOTIFY_EMAIL || "", d);
     return { status: "success", message: "Thank you. We have received your message and will reply as soon as possible." };

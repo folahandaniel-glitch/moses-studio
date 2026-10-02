@@ -5,11 +5,11 @@ import { sql } from "./db";
 /** Fixed-window limiter stored in PostgreSQL so it works across serverless instances. */
 export async function rateLimit(key: string, limit: number, windowSeconds: number): Promise<boolean> {
   const [row] = await sql<{ count: number }[]>`
-    insert into rate_limits (key, count, reset_at)
+    insert into ms_rate_limits (key, count, reset_at)
     values (${key}, 1, now() + (${windowSeconds} * interval '1 second'))
     on conflict (key) do update set
-      count = case when rate_limits.reset_at < now() then 1 else rate_limits.count + 1 end,
-      reset_at = case when rate_limits.reset_at < now() then now() + (${windowSeconds} * interval '1 second') else rate_limits.reset_at end
+      count = case when ms_rate_limits.reset_at < now() then 1 else ms_rate_limits.count + 1 end,
+      reset_at = case when ms_rate_limits.reset_at < now() then now() + (${windowSeconds} * interval '1 second') else ms_rate_limits.reset_at end
     returning count`;
   return row.count <= limit;
 }

@@ -1,6 +1,6 @@
-create type project_status as enum ('PRECIOUS', 'ONGOING', 'READY');
+create type ms_project_status as enum ('PRECIOUS', 'ONGOING', 'READY');
 
-create table admin_users (
+create table ms_admin_users (
   id uuid primary key default gen_random_uuid(),
   email text not null unique,
   name text not null,
@@ -12,14 +12,14 @@ create table admin_users (
   created_at timestamptz not null default now()
 );
 
-create table content_blocks (
+create table ms_content_blocks (
   section text primary key,
   data jsonb not null default '{}'::jsonb,
   updated_at timestamptz not null default now(),
-  updated_by uuid references admin_users(id) on delete set null
+  updated_by uuid references ms_admin_users(id) on delete set null
 );
 
-create table navigation_items (
+create table ms_navigation_items (
   id uuid primary key default gen_random_uuid(),
   label text not null,
   href text not null,
@@ -27,7 +27,7 @@ create table navigation_items (
   visible boolean not null default true
 );
 
-create table hero_slides (
+create table ms_hero_slides (
   id uuid primary key default gen_random_uuid(),
   image_url text not null,
   alt text not null default '',
@@ -37,7 +37,7 @@ create table hero_slides (
   published boolean not null default true
 );
 
-create table services (
+create table ms_services (
   id uuid primary key default gen_random_uuid(),
   title text not null,
   short_description text not null default '',
@@ -48,7 +48,7 @@ create table services (
   published boolean not null default true
 );
 
-create table categories (
+create table ms_categories (
   id uuid primary key default gen_random_uuid(),
   name text not null,
   slug text not null unique,
@@ -56,14 +56,14 @@ create table categories (
   sort_order int not null default 0
 );
 
-create table projects (
+create table ms_projects (
   id uuid primary key default gen_random_uuid(),
   title text not null,
   slug text not null unique,
   short_description text not null default '',
   full_description text not null default '',
-  category_id uuid references categories(id) on delete set null,
-  status project_status not null default 'READY',
+  category_id uuid references ms_categories(id) on delete set null,
+  status ms_project_status not null default 'READY',
   featured_image_url text not null default '',
   video_url text not null default '',
   client_name text not null default '',
@@ -81,19 +81,19 @@ create table projects (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
-create index projects_public_idx on projects (published, status, sort_order);
-create index projects_category_idx on projects (category_id);
+create index ms_projects_public_idx on ms_projects (published, status, sort_order);
+create index ms_projects_category_idx on ms_projects (category_id);
 
-create table project_images (
+create table ms_project_images (
   id uuid primary key default gen_random_uuid(),
-  project_id uuid not null references projects(id) on delete cascade,
+  project_id uuid not null references ms_projects(id) on delete cascade,
   url text not null,
   alt text not null default '',
   sort_order int not null default 0
 );
-create index project_images_project_idx on project_images (project_id, sort_order);
+create index ms_project_images_project_idx on ms_project_images (project_id, sort_order);
 
-create table testimonials (
+create table ms_testimonials (
   id uuid primary key default gen_random_uuid(),
   author_name text not null,
   author_role text not null default '',
@@ -103,7 +103,7 @@ create table testimonials (
   published boolean not null default true
 );
 
-create table social_links (
+create table ms_social_links (
   id uuid primary key default gen_random_uuid(),
   network text not null,
   url text not null,
@@ -111,7 +111,7 @@ create table social_links (
   visible boolean not null default true
 );
 
-create table contact_submissions (
+create table ms_contact_submissions (
   id uuid primary key default gen_random_uuid(),
   name text not null,
   email text not null,
@@ -122,7 +122,7 @@ create table contact_submissions (
   created_at timestamptz not null default now()
 );
 
-create table media (
+create table ms_media (
   id uuid primary key default gen_random_uuid(),
   url text not null,
   filename text not null,
@@ -131,11 +131,11 @@ create table media (
   width int,
   height int,
   alt text not null default '',
-  uploaded_by uuid references admin_users(id) on delete set null,
+  uploaded_by uuid references ms_admin_users(id) on delete set null,
   created_at timestamptz not null default now()
 );
 
-create table activity_logs (
+create table ms_activity_logs (
   id bigserial primary key,
   admin_id uuid,
   admin_email text not null default '',
@@ -145,9 +145,9 @@ create table activity_logs (
   detail text not null default '',
   created_at timestamptz not null default now()
 );
-create index activity_logs_created_idx on activity_logs (created_at desc);
+create index ms_activity_logs_created_idx on ms_activity_logs (created_at desc);
 
-create table rate_limits (
+create table ms_rate_limits (
   key text primary key,
   count int not null default 0,
   reset_at timestamptz not null

@@ -6,7 +6,7 @@ import { deleteMessage, toggleMessageRead } from "../../actions";
 
 export default async function MessagesPage({ searchParams }: { searchParams: SearchParams }) {
   const sp = await searchParams;
-  const rows = await sql<{ id: string; name: string; email: string; phone: string; subject: string; message: string; is_read: boolean; created_at: Date }[]>`select * from contact_submissions order by created_at desc limit 200`;
+  const rows = await sql<{ id: string; name: string; email: string; phone: string; subject: string; message: string; is_read: boolean; created_at: Date }[]>`select * from ms_contact_submissions order by created_at desc limit 200`;
   return (
     <>
       <PageHeader title="Enquiries" description="Messages sent through the website contact form." sp={{ notice: first(sp.notice), error: first(sp.error) }} />

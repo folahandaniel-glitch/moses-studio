@@ -8,7 +8,7 @@ import { deleteMedia } from "../../actions";
 
 export default async function MediaPage({ searchParams }: { searchParams: SearchParams }) {
   const sp = await searchParams;
-  const items = await sql<{ id: string; url: string; filename: string; size_bytes: number; width: number | null; height: number | null }[]>`select id, url, filename, size_bytes, width, height from media order by created_at desc limit 200`;
+  const items = await sql<{ id: string; url: string; filename: string; size_bytes: number; width: number | null; height: number | null }[]>`select id, url, filename, size_bytes, width, height from ms_media order by created_at desc limit 200`;
   return (
     <>
       <PageHeader title="Media Library" description="Every image you upload. Images are optimised automatically (resized and converted to WebP)." sp={{ notice: first(sp.notice), error: first(sp.error) }} action={<UploadButton />} />

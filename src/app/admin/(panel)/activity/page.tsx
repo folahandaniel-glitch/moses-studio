@@ -2,7 +2,7 @@ import { sql } from "@/lib/db";
 import { Empty, PageHeader } from "@/components/admin/UI";
 
 export default async function ActivityPage() {
-  const rows = await sql<{ id: string; admin_email: string; action: string; entity: string; detail: string; created_at: Date }[]>`select id, admin_email, action, entity, detail, created_at from activity_logs order by created_at desc limit 200`;
+  const rows = await sql<{ id: string; admin_email: string; action: string; entity: string; detail: string; created_at: Date }[]>`select id, admin_email, action, entity, detail, created_at from ms_activity_logs order by created_at desc limit 200`;
   return (
     <>
       <PageHeader title="Activity Log" description="The most recent 200 actions taken in the dashboard." />

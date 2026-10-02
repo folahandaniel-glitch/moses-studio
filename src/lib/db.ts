@@ -5,13 +5,11 @@ declare global {
 }
 
 function connect() {
-  const url = process.env.DATABASE_URL_UNPOOLED || process.env.DATABASE_URL;
+  const url = process.env.DATABASE_URL;
   if (!url) throw new Error("DATABASE_URL is not configured");
   const clean = new URL(url);
-  // Poolers ignore the search_path setting, so connect to the direct host (Neon: same name without "-pooler").
-  clean.hostname = clean.hostname.replace("-pooler", "");
   for (const key of ["channel_binding", "options"]) clean.searchParams.delete(key);
-  return postgres(clean.toString(), { max: 5, idle_timeout: 20, connect_timeout: 15, prepare: false, connection: { search_path: (process.env.DB_SCHEMA || "moses_studio").replace(/[^a-z0-9_]/gi, "") } });
+  return postgres(clean.toString(), { max: 5, idle_timeout: 20, connect_timeout: 15, prepare: false });
 }
 
 /** Lazily created so builds and tooling that never touch the database do not fail. */

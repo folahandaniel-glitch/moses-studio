@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 
 export default async function PanelLayout({ children }: { children: React.ReactNode }) {
   const admin = await requireAdmin();
-  const [{ unread }] = await sql<{ unread: number }[]>`select count(*)::int as unread from contact_submissions where not is_read`;
+  const [{ unread }] = await sql<{ unread: number }[]>`select count(*)::int as unread from ms_contact_submissions where not is_read`;
   const groups: NavGroup[] = [
     { heading: "Overview", items: [{ href: "/admin", label: "Dashboard" }] },
     { heading: "Portfolio", items: [{ href: "/admin/projects", label: "Portfolio" }, { href: "/admin/c/categories", label: COLLECTIONS.categories.title }, { href: "/admin/media", label: "Media Library" }] },

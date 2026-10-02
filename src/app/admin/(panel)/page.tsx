@@ -10,9 +10,9 @@ export default async function Dashboard() {
       count(*) filter (where status = 'READY')::int as ready,
       count(*) filter (where published)::int as published,
       count(*) filter (where not published)::int as draft
-    from projects`;
-  const [{ enquiries, unread }] = await sql<{ enquiries: number; unread: number }[]>`select count(*)::int as enquiries, count(*) filter (where not is_read)::int as unread from contact_submissions`;
-  const recent = await sql<{ id: string; name: string; subject: string; created_at: Date; is_read: boolean }[]>`select id, name, subject, created_at, is_read from contact_submissions order by created_at desc limit 5`;
+    from ms_projects`;
+  const [{ enquiries, unread }] = await sql<{ enquiries: number; unread: number }[]>`select count(*)::int as enquiries, count(*) filter (where not is_read)::int as unread from ms_contact_submissions`;
+  const recent = await sql<{ id: string; name: string; subject: string; created_at: Date; is_read: boolean }[]>`select id, name, subject, created_at, is_read from ms_contact_submissions order by created_at desc limit 5`;
 
   const cards: [string, number, string?][] = [
     ["Total projects", stats.total], ["Precious works", stats.precious], ["Ongoing works", stats.ongoing], ["Ready works", stats.ready],

@@ -53,14 +53,14 @@ async function loginImpl(form: FormData): Promise<ActionResult | void> {
   }
 
   const [user] = await sql<{ id: string; email: string; password_hash: string; token_version: number; active: boolean }[]>`
-    select id, email, password_hash, token_version, active from admin_users where email = ${email}`;
+    select id, email, password_hash, token_version, active from ms_admin_users where email = ${email}`;
   const ok = await checkPassword(password, user?.password_hash ?? DUMMY_HASH);
   if (!user || !ok || !user.active) {
     await logActivity({ id: "", email }, "login.failed");
     return { error: "Incorrect email or password." };
   }
-  await sql`delete from rate_limits where key in (${`login-email:${email}`}, ${`login-ip:${ip}`})`;
-  await sql`update admin_users set last_login_at = now() where id = ${user.id}`;
+  await sql`delete from ms_rate_limits where key in (${`login-email:${email}`}, ${`login-ip:${ip}`})`;
+  await sql`update ms_admin_users set last_login_at = now() where id = ${user.id}`;
   await setSessionCookie({ uid: user.id, tv: user.token_version });
   await logActivity(user, "login");
   redirect("/admin");
@@ -76,12 +76,12 @@ async function changeOwnPasswordImpl(form: FormData): Promise<ActionResult | voi
   const current = String(form.get("current") ?? "");
   const next = String(form.get("next") ?? "");
   const confirm = String(form.get("confirm") ?? "");
-  const [row] = await sql<{ password_hash: string }[]>`select password_hash from admin_users where id = ${admin.id}`;
+  const [row] = await sql<{ password_hash: string }[]>`select password_hash from ms_admin_users where id = ${admin.id}`;
   if (!(await checkPassword(current, row.password_hash))) failed("/admin/security", "Your current password is incorrect.");
   if (next !== confirm) failed("/admin/security", "The new passwords do not match.");
   const problem = passwordProblem(next);
   if (problem) failed("/admin/security", problem);
-  const [updated] = await sql<{ token_version: number }[]>`update admin_users set password_hash = ${await hashPassword(next)}, token_version = token_version + 1 where id = ${admin.id} returning token_version`;
+  const [updated] = await sql<{ token_version: number }[]>`update ms_admin_users set password_hash = ${await hashPassword(next)}, token_version = token_version + 1 where id = ${admin.id} returning token_version`;
   await setSessionCookie({ uid: admin.id, tv: updated.token_version });
   await logActivity(admin, "password.changed");
   done("/admin/security", "Password updated. Other devices have been signed out.");
@@ -99,7 +99,7 @@ async function createUserImpl(form: FormData): Promise<ActionResult | void> {
   const problem = passwordProblem(password);
   if (problem) failed("/admin/users", problem);
   try {
-    await sql`insert into admin_users (email, name, password_hash, role) values (${email}, ${name}, ${await hashPassword(password)}, ${role})`;
+    await sql`insert into ms_admin_users (email, name, password_hash, role) values (${email}, ${name}, ${await hashPassword(password)}, ${role})`;
   } catch {
     failed("/admin/users", "An account with that email already exists.");
   }
@@ -113,7 +113,7 @@ async function resetUserPasswordImpl(form: FormData): Promise<ActionResult | voi
   const password = String(form.get("password") ?? "");
   const problem = passwordProblem(password);
   if (problem) failed("/admin/users", problem);
-  await sql`update admin_users set password_hash = ${await hashPassword(password)}, token_version = token_version + 1 where id = ${id}`;
+  await sql`update ms_admin_users set password_hash = ${await hashPassword(password)}, token_version = token_version + 1 where id = ${id}`;
   await logActivity(admin, "user.password_reset", "admin_user", id);
   done("/admin/users", "Password reset. The user has been signed out everywhere.");
 }
@@ -123,7 +123,7 @@ async function setUserActiveImpl(form: FormData): Promise<ActionResult | void> {
   const id = String(form.get("id"));
   const active = form.get("active") === "true";
   if (id === admin.id) failed("/admin/users", "You cannot deactivate your own account.");
-  await sql`update admin_users set active = ${active}, token_version = token_version + 1 where id = ${id}`;
+  await sql`update ms_admin_users set active = ${active}, token_version = token_version + 1 where id = ${id}`;
   await logActivity(admin, active ? "user.activated" : "user.deactivated", "admin_user", id);
   done("/admin/users", active ? "Account activated." : "Account deactivated.");
 }
@@ -132,9 +132,9 @@ async function deleteUserImpl(form: FormData): Promise<ActionResult | void> {
   const admin = await requireSuperAdmin();
   const id = String(form.get("id"));
   if (id === admin.id) failed("/admin/users", "You cannot delete your own account.");
-  const [{ count }] = await sql<{ count: number }[]>`select count(*)::int as count from admin_users where role = 'SUPER_ADMIN' and active and id <> ${id}`;
+  const [{ count }] = await sql<{ count: number }[]>`select count(*)::int as count from ms_admin_users where role = 'SUPER_ADMIN' and active and id <> ${id}`;
   if (count === 0) failed("/admin/users", "At least one active Super Admin must remain.");
-  await sql`delete from admin_users where id = ${id}`;
+  await sql`delete from ms_admin_users where id = ${id}`;
   await logActivity(admin, "user.deleted", "admin_user", id);
   done("/admin/users", "Account deleted.");
 }
@@ -149,7 +149,7 @@ async function saveBlockImpl(form: FormData): Promise<ActionResult | void> {
   if (!def) failed("/admin", "Unknown section.");
   const { data, errors } = parseBlockForm(def.fields, form);
   if (errors.length) failed(path, errors[0]);
-  await sql`update content_blocks set data = data || ${sql.json(data as never)}, updated_at = now(), updated_by = ${admin.id} where section = ${section}`;
+  await sql`update ms_content_blocks set data = data || ${sql.json(data as never)}, updated_at = now(), updated_by = ${admin.id} where section = ${section}`;
   await logActivity(admin, "content.updated", "content", section);
   refresh();
   done(path, "Changes saved. The website is updated.");
@@ -249,8 +249,8 @@ async function toggleCollectionVisibilityImpl(form: FormData): Promise<ActionRes
 /* --------------------------------- projects -------------------------------- */
 
 async function writeGallery(tx: typeof sql, projectId: string, gallery: { url: string; alt: string }[]) {
-  await tx`delete from project_images where project_id = ${projectId}`;
-  for (let i = 0; i < gallery.length; i++) await tx`insert into project_images (project_id, url, alt, sort_order) values (${projectId}, ${gallery[i].url}, ${gallery[i].alt}, ${i})`;
+  await tx`delete from ms_project_images where project_id = ${projectId}`;
+  for (let i = 0; i < gallery.length; i++) await tx`insert into ms_project_images (project_id, url, alt, sort_order) values (${projectId}, ${gallery[i].url}, ${gallery[i].alt}, ${i})`;
 }
 
 async function saveProjectImpl(form: FormData): Promise<ActionResult | void> {
@@ -271,9 +271,9 @@ async function saveProjectImpl(form: FormData): Promise<ActionResult | void> {
         external_url: p.external_url, sort_order: p.sort_order, featured: p.featured, published: p.published, seo_title: p.seo_title, seo_description: p.seo_description,
       };
       const cols = Object.keys(fields);
-      if (id) await tx`update projects set ${tx(fields as never, ...cols)}, updated_at = now() where id = ${id}`;
+      if (id) await tx`update ms_projects set ${tx(fields as never, ...cols)}, updated_at = now() where id = ${id}`;
       else {
-        const [row] = await tx<{ id: string }[]>`insert into projects ${tx(fields as never, ...cols)} returning id`;
+        const [row] = await tx<{ id: string }[]>`insert into ms_projects ${tx(fields as never, ...cols)} returning id`;
         savedId = row.id;
       }
       await writeGallery(tx as unknown as typeof sql, savedId, gallery);
@@ -290,7 +290,7 @@ async function saveProjectImpl(form: FormData): Promise<ActionResult | void> {
 async function deleteProjectImpl(form: FormData): Promise<ActionResult | void> {
   const admin = await requireAdmin();
   const id = String(form.get("id"));
-  const [row] = await sql<{ title: string }[]>`delete from projects where id = ${id} returning title`;
+  const [row] = await sql<{ title: string }[]>`delete from ms_projects where id = ${id} returning title`;
   await logActivity(admin, "project.deleted", "project", id, row?.title ?? "");
   refresh();
   done("/admin/projects", "Project deleted.");
@@ -299,16 +299,16 @@ async function deleteProjectImpl(form: FormData): Promise<ActionResult | void> {
 async function duplicateProjectImpl(form: FormData): Promise<ActionResult | void> {
   const admin = await requireAdmin();
   const id = String(form.get("id"));
-  const [src] = await sql<{ title: string; slug: string }[]>`select title, slug from projects where id = ${id}`;
+  const [src] = await sql<{ title: string; slug: string }[]>`select title, slug from ms_projects where id = ${id}`;
   if (!src) failed("/admin/projects", "Project not found.");
   const slug = `${src.slug}-copy-${Math.random().toString(36).slice(2, 6)}`;
   const [copy] = await sql<{ id: string }[]>`
-    insert into projects (title, slug, short_description, full_description, category_id, status, featured_image_url, video_url, client_name, location,
+    insert into ms_projects (title, slug, short_description, full_description, category_id, status, featured_image_url, video_url, client_name, location,
       project_date, completion_date, services_provided, tools_used, external_url, sort_order, featured, published, seo_title, seo_description)
     select ${`${src.title} (copy)`}, ${slug}, short_description, full_description, category_id, status, featured_image_url, video_url, client_name, location,
       project_date, completion_date, services_provided, tools_used, external_url, sort_order, false, false, seo_title, seo_description
-    from projects where id = ${id} returning id`;
-  await sql`insert into project_images (project_id, url, alt, sort_order) select ${copy.id}, url, alt, sort_order from project_images where project_id = ${id}`;
+    from ms_projects where id = ${id} returning id`;
+  await sql`insert into ms_project_images (project_id, url, alt, sort_order) select ${copy.id}, url, alt, sort_order from ms_project_images where project_id = ${id}`;
   await logActivity(admin, "project.duplicated", "project", copy.id, src.title);
   refresh();
   done(`/admin/projects/${copy.id}`, "Project duplicated as a draft.");
@@ -318,12 +318,12 @@ async function quickUpdateProjectImpl(form: FormData): Promise<ActionResult | vo
   const admin = await requireAdmin();
   const id = String(form.get("id"));
   const field = String(form.get("field"));
-  if (field === "published") await sql`update projects set published = not published, updated_at = now() where id = ${id}`;
-  else if (field === "featured") await sql`update projects set featured = not featured, updated_at = now() where id = ${id}`;
+  if (field === "published") await sql`update ms_projects set published = not published, updated_at = now() where id = ${id}`;
+  else if (field === "featured") await sql`update ms_projects set featured = not featured, updated_at = now() where id = ${id}`;
   else if (field === "status") {
     const status = String(form.get("status"));
     if (!["PRECIOUS", "ONGOING", "READY"].includes(status)) failed("/admin/projects", "Invalid status.");
-    await sql`update projects set status = ${status}::project_status, updated_at = now() where id = ${id}`;
+    await sql`update ms_projects set status = ${status}::ms_project_status, updated_at = now() where id = ${id}`;
   } else failed("/admin/projects", "Invalid change.");
   await logActivity(admin, `project.${field}`, "project", id);
   refresh();
@@ -332,7 +332,7 @@ async function quickUpdateProjectImpl(form: FormData): Promise<ActionResult | vo
 
 async function moveProjectImpl(form: FormData): Promise<ActionResult | void> {
   await requireAdmin();
-  await renumber("projects", String(form.get("id")), form.get("dir") === "up" ? "up" : "down", sql`order by sort_order, created_at desc, id`);
+  await renumber("ms_projects", String(form.get("id")), form.get("dir") === "up" ? "up" : "down", sql`order by sort_order, created_at desc, id`);
   refresh();
   redirect("/admin/projects");
 }
@@ -341,20 +341,20 @@ async function moveProjectImpl(form: FormData): Promise<ActionResult | void> {
 
 async function toggleMessageReadImpl(form: FormData): Promise<ActionResult | void> {
   await requireAdmin();
-  await sql`update contact_submissions set is_read = not is_read where id = ${String(form.get("id"))}`;
+  await sql`update ms_contact_submissions set is_read = not is_read where id = ${String(form.get("id"))}`;
   redirect("/admin/messages");
 }
 
 async function deleteMessageImpl(form: FormData): Promise<ActionResult | void> {
   const admin = await requireAdmin();
-  await sql`delete from contact_submissions where id = ${String(form.get("id"))}`;
+  await sql`delete from ms_contact_submissions where id = ${String(form.get("id"))}`;
   await logActivity(admin, "message.deleted", "contact_submission", String(form.get("id")));
   done("/admin/messages", "Message deleted.");
 }
 
 async function deleteMediaImpl(form: FormData): Promise<ActionResult | void> {
   const admin = await requireAdmin();
-  const [row] = await sql<{ url: string }[]>`delete from media where id = ${String(form.get("id"))} returning url`;
+  const [row] = await sql<{ url: string }[]>`delete from ms_media where id = ${String(form.get("id"))} returning url`;
   if (row) await removeStoredFile(row.url);
   await logActivity(admin, "media.deleted", "media", String(form.get("id")));
   done("/admin/media", "File deleted. Pages that still use it will show a missing image until you replace it.");

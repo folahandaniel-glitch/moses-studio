@@ -11,7 +11,7 @@ export default async function ContentPage({ params, searchParams }: { params: Pr
   const def = SECTIONS[section];
   if (!def) notFound();
   const sp = await searchParams;
-  const [row] = await sql<{ data: Record<string, unknown> }[]>`select data from content_blocks where section = ${section}`;
+  const [row] = await sql<{ data: Record<string, unknown> }[]>`select data from ms_content_blocks where section = ${section}`;
   const data = row?.data ?? {};
   return (
     <>
