@@ -12,9 +12,18 @@ function cleanUrl(raw) {
   return u.toString();
 }
 
-// Prefer the direct (non pooled) connection for migrations when the host provides one.
+/**
+ * Connection poolers ignore the search_path startup setting, so use a direct connection.
+ * Neon: the pooled host contains "-pooler"; the direct host is the same name without it.
+ */
+function directUrl(raw) {
+  const u = new URL(cleanUrl(raw));
+  u.hostname = u.hostname.replace("-pooler", "");
+  return u.toString();
+}
+
 const rawUrl = process.env.DATABASE_URL_UNPOOLED || process.env.DATABASE_URL;
-const url = rawUrl && cleanUrl(rawUrl);
+const url = rawUrl && directUrl(rawUrl);
 if (!url) {
   console.log("[migrate] DATABASE_URL not set, skipping database setup.");
   process.exit(0);
@@ -29,6 +38,10 @@ async function main() {
     await bootstrap.unsafe(`create schema if not exists "${SCHEMA}"`);
   } finally {
     await bootstrap.end();
+  }
+  const [{ schema }] = await sql`select current_schema() as schema`;
+  if (schema !== SCHEMA) {
+    throw new Error(`connected with schema "${schema}" instead of "${SCHEMA}"; refusing to touch other tables. Use a direct (non pooled) DATABASE_URL.`);
   }
   await sql`create table if not exists schema_migrations (name text primary key, applied_at timestamptz not null default now())`;
   const dir = path.resolve("migrations");
