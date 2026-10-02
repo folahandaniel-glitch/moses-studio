@@ -23,26 +23,53 @@ function directUrl(raw) {
 }
 
 const rawUrl = process.env.DATABASE_URL_UNPOOLED || process.env.DATABASE_URL;
-const url = rawUrl && directUrl(rawUrl);
+const candidates = rawUrl ? [...new Set([directUrl(rawUrl), cleanUrl(rawUrl)])] : [];
+let url = candidates[0];
+const hostOf = (u) => new URL(u).hostname.replace(/^[^.]*/, "<db>");
+const log = (msg) => console.log(`[migrate] ${msg}`);
+
+// Never let a stuck connection hang the whole deployment.
+const watchdog = setTimeout(() => {
+  console.error("[migrate] timed out after 120s waiting for the database. Check that the Neon database is active and DATABASE_URL is correct.");
+  process.exit(1);
+}, 120_000);
+watchdog.unref?.();
 if (!url) {
   console.log("[migrate] DATABASE_URL not set, skipping database setup.");
   process.exit(0);
 }
 // The app lives in its own schema so it never collides with other apps sharing the same database.
 const SCHEMA = (process.env.DB_SCHEMA || "moses_studio").replace(/[^a-z0-9_]/gi, "");
-const sql = postgres(url, { max: 1, onnotice: () => {}, connection: { search_path: SCHEMA } });
+const opts = { max: 1, onnotice: () => {}, connect_timeout: 20, connection: { search_path: SCHEMA } };
+let sql;
+
+async function connect() {
+  let lastError;
+  for (const candidate of candidates) {
+    url = candidate;
+    log(`connecting to ${hostOf(candidate)} (${candidate.includes("-pooler") ? "pooled" : "direct"})`);
+    const bootstrap = postgres(candidate, { max: 1, onnotice: () => {}, connect_timeout: 20 });
+    try {
+      await bootstrap.unsafe(`create schema if not exists "${SCHEMA}"`);
+    } catch (err) {
+      lastError = err;
+      log(`connection failed: ${err.code || ""} ${err.message}`);
+      continue;
+    } finally {
+      await bootstrap.end({ timeout: 5 });
+    }
+    const attempt = postgres(candidate, opts);
+    const [{ schema }] = await attempt`select current_schema() as schema`;
+    if (schema === SCHEMA) return attempt;
+    log(`this connection ignores the schema setting (got "${schema}"), trying the next option`);
+    await attempt.end({ timeout: 5 });
+  }
+  throw lastError ?? new Error(`no connection honoured the "${SCHEMA}" schema setting; refusing to touch other tables`);
+}
 
 async function main() {
-  const bootstrap = postgres(url, { max: 1, onnotice: () => {} });
-  try {
-    await bootstrap.unsafe(`create schema if not exists "${SCHEMA}"`);
-  } finally {
-    await bootstrap.end();
-  }
-  const [{ schema }] = await sql`select current_schema() as schema`;
-  if (schema !== SCHEMA) {
-    throw new Error(`connected with schema "${schema}" instead of "${SCHEMA}"; refusing to touch other tables. Use a direct (non pooled) DATABASE_URL.`);
-  }
+  sql = await connect();
+  log(`using schema "${SCHEMA}"`);
   await sql`create table if not exists schema_migrations (name text primary key, applied_at timestamptz not null default now())`;
   const dir = path.resolve("migrations");
   const files = fs.readdirSync(dir).filter((f) => f.endsWith(".sql")).sort();
@@ -104,4 +131,4 @@ main()
     if (err.cause) console.error("[migrate] cause:", err.cause.message || err.cause);
     process.exitCode = 1;
   })
-  .finally(() => sql.end());
+  .finally(async () => { clearTimeout(watchdog); await sql?.end({ timeout: 5 }); });
