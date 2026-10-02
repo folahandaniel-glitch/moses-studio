@@ -4,7 +4,17 @@ import path from "node:path";
 import postgres from "postgres";
 import bcrypt from "bcryptjs";
 
-const url = process.env.DATABASE_URL;
+/** Neon strings carry options (channel_binding) that the driver would forward to the server and be rejected. */
+function cleanUrl(raw) {
+  const u = new URL(raw);
+  for (const key of ["channel_binding", "options"]) u.searchParams.delete(key);
+  if (!u.searchParams.has("sslmode") && !/localhost|127\.0\.0\.1/.test(u.hostname)) u.searchParams.set("sslmode", "require");
+  return u.toString();
+}
+
+// Prefer the direct (non pooled) connection for migrations when the host provides one.
+const rawUrl = process.env.DATABASE_URL_UNPOOLED || process.env.DATABASE_URL;
+const url = rawUrl && cleanUrl(rawUrl);
 if (!url) {
   console.log("[migrate] DATABASE_URL not set, skipping database setup.");
   process.exit(0);
@@ -69,7 +79,8 @@ async function main() {
 
 main()
   .catch((err) => {
-    console.error("[migrate] failed:", err.message);
+    console.error("[migrate] failed:", err.code || "", err.message);
+    if (err.cause) console.error("[migrate] cause:", err.cause.message || err.cause);
     process.exitCode = 1;
   })
   .finally(() => sql.end());
