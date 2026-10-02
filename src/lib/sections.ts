@@ -43,7 +43,7 @@ export const SECTIONS: Record<string, SectionDef> = {
       { name: "background", label: "Page background colour", type: "color", help: "Applies to the Light appearance." },
       { name: "text", label: "Text colour", type: "color", help: "Applies to the Light appearance." },
       { name: "footer_bg", label: "Footer colour", type: "color" },
-      { name: "color_precious", label: "Precious Works colour", type: "color" },
+      { name: "color_precious", label: "Previous Works colour", type: "color" },
       { name: "color_ongoing", label: "Ongoing Works colour", type: "color" },
       { name: "color_ready", label: "Ready Works colour", type: "color" },
       { name: "heading_font", label: "Heading style", type: "select", options: [{ value: "serif", label: "Elegant serif" }, { value: "sans", label: "Modern sans" }] },
@@ -86,7 +86,7 @@ export const SECTIONS: Record<string, SectionDef> = {
     fields: [
       t("services_eyebrow", "Services: small label"), t("services_heading", "Services: heading"), area("services_intro", "Services: introduction", undefined, 500),
       t("works_eyebrow", "Works: small label"), t("works_heading", "Works: heading"), area("works_intro", "Works: introduction", undefined, 500),
-      t("precious_title", "Precious Works: title"), t("precious_intro", "Precious Works: introduction"),
+      t("precious_title", "Previous Works: title"), t("precious_intro", "Previous Works: introduction"),
       t("ongoing_title", "Ongoing Works: title"), t("ongoing_intro", "Ongoing Works: introduction"),
       t("ready_title", "Ready Works: title"), t("ready_intro", "Ready Works: introduction"),
       t("categories_heading", "Categories: heading"), t("spotlight_eyebrow", "Project in focus: small label"),

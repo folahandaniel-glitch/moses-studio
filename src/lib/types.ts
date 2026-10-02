@@ -1,11 +1,11 @@
 export type ProjectStatus = "PRECIOUS" | "ONGOING" | "READY";
 export const PROJECT_STATUSES: ProjectStatus[] = ["PRECIOUS", "ONGOING", "READY"];
 export const STATUS_LABEL: Record<ProjectStatus, string> = {
-  PRECIOUS: "Precious Works",
+  PRECIOUS: "Previous Works",
   ONGOING: "Ongoing Works",
   READY: "Ready Works",
 };
-export const STATUS_SHORT: Record<ProjectStatus, string> = { PRECIOUS: "Precious", ONGOING: "Ongoing", READY: "Ready" };
+export const STATUS_SHORT: Record<ProjectStatus, string> = { PRECIOUS: "Previous", ONGOING: "Ongoing", READY: "Ready" };
 
 export interface Pair {
   title: string;

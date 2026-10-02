@@ -16,7 +16,7 @@ export default async function Dashboard() {
 
   const TONE = ["border-accent", "border-precious", "border-ongoing", "border-ready", "border-accent2", "border-accent3", "border-accent"];
   const cards: [string, number, string?][] = [
-    ["Total projects", stats.total], ["Precious works", stats.precious], ["Ongoing works", stats.ongoing], ["Ready works", stats.ready],
+    ["Total projects", stats.total], ["Previous works", stats.precious], ["Ongoing works", stats.ongoing], ["Ready works", stats.ready],
     ["Published", stats.published], ["Drafts", stats.draft], ["Contact enquiries", enquiries, unread ? `${unread} unread` : undefined],
   ];
   return (

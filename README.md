@@ -15,7 +15,7 @@ The previous Supabase/plain-HTML template is kept untouched in `legacy/` for ref
 
 ## Features
 
-- Premium one-page site: animated hero carousel, About, Services, Portfolio (Precious / Ongoing / Ready works, category filters, "show more" pagination that stays fast with 100+ projects), project spotlight, Why choose us, Testimonials, Call to action, Contact, Footer
+- Premium one-page site: animated hero carousel, About, Services, Portfolio (Previous / Ongoing / Ready works, category filters, "show more" pagination that stays fast with 100+ projects), project spotlight, Why choose us, Testimonials, Call to action, Contact, Footer
 - Dynamic project pages at `/work/<slug>` with gallery, video, related works and contact CTA
 - Admin dashboard: Dashboard statistics (real database values), Site Settings, Theme, Navigation, Hero Carousel, Hero, About, Services, Section Headings, Testimonials, Call To Action, Contact, Social Links, Footer, SEO, Portfolio (create, edit, delete, duplicate, publish and unpublish, feature, change status, reorder, galleries), Categories, Media Library, Enquiries, Users, Security, Activity Log
 - Contact form with server validation, honeypot, minimum fill time, database rate limiting and optional Resend email notification; call and WhatsApp buttons
@@ -77,7 +77,7 @@ The release was also verified in a real browser (Chromium): all breakpoints from
 
 ## Content management
 
-- Add a project: Admin > Portfolio > Add project. Choose status (Precious, Ongoing, Ready), category, images, then tick Published. Drafts never appear publicly.
+- Add a project: Admin > Portfolio > Add project. Choose status (Previous, Ongoing, Ready), category, images, then tick Published. Drafts never appear publicly.
 - Change status, publish, feature or reorder: Admin > Portfolio, use the buttons on each row.
 - Change contact details: Admin > Contact (phone, WhatsApp number and message, email, address, hours).
 - Change the footer: Admin > Footer. Social networks: Admin > Social Links (only configured networks are shown).
