@@ -90,3 +90,7 @@ The release was also verified in a real browser (Chromium): all breakpoints from
 - Create the Vercel project and add the environment variables above (needs your Vercel authorisation).
 - Provide real content: biography, services, projects, photography, testimonials (nothing was invented).
 - Custom domain and DNS (Cloudflare or other) when you are ready, then set `NEXT_PUBLIC_SITE_URL` and Admin > SEO > Website address.
+
+## Shared databases
+
+The app keeps all of its tables in its own PostgreSQL schema (`moses_studio` by default, change with `DB_SCHEMA`), so it can safely share a database with other applications without name clashes. If the host provides `DATABASE_URL_UNPOOLED` it is preferred, because direct connections support the schema setting.

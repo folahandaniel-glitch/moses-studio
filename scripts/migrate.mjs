@@ -19,9 +19,17 @@ if (!url) {
   console.log("[migrate] DATABASE_URL not set, skipping database setup.");
   process.exit(0);
 }
-const sql = postgres(url, { max: 1, onnotice: () => {} });
+// The app lives in its own schema so it never collides with other apps sharing the same database.
+const SCHEMA = (process.env.DB_SCHEMA || "moses_studio").replace(/[^a-z0-9_]/gi, "");
+const sql = postgres(url, { max: 1, onnotice: () => {}, connection: { search_path: SCHEMA } });
 
 async function main() {
+  const bootstrap = postgres(url, { max: 1, onnotice: () => {} });
+  try {
+    await bootstrap.unsafe(`create schema if not exists "${SCHEMA}"`);
+  } finally {
+    await bootstrap.end();
+  }
   await sql`create table if not exists schema_migrations (name text primary key, applied_at timestamptz not null default now())`;
   const dir = path.resolve("migrations");
   const files = fs.readdirSync(dir).filter((f) => f.endsWith(".sql")).sort();
