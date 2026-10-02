@@ -1,93 +1,92 @@
-# One-Page Portfolio Template with Admin Backend
+# Moses Studio
 
-A professional one-page portfolio website. Everything on the page (text, colours, fonts, sections, work samples) is edited from a secure dashboard at `/admin`.
+A premium one-page creative portfolio with a full admin dashboard. Everything visitors see (text, images, colours, services, projects, testimonials, contact details, SEO) is stored in the database and edited from `/admin`, with no code changes.
 
-**Roles**
+The previous Supabase/plain-HTML template is kept untouched in `legacy/` for reference only. It is not used by this application.
 
-| Role | Can edit content and work samples | Can read messages | Can add or remove admins |
-|---|---|---|---|
-| Super Admin | Yes | Yes | Yes |
-| Admin | Yes | Yes | No |
+## Technology stack
 
-**Stack:** plain HTML, CSS and JavaScript on Vercel, with Supabase (free plan is enough) for login, database and image storage. There is no build step.
+- Next.js 15 (App Router), React 19, TypeScript (strict)
+- Tailwind CSS 3
+- PostgreSQL through `postgres` (works with Neon, Supabase, Vercel Postgres or any Postgres, supplied by `DATABASE_URL`)
+- Own session authentication: bcrypt password hashing, signed httpOnly `SameSite=Strict` cookie, role based access
+- Vercel Blob for image storage (local disk fallback for development), `sharp` for automatic image optimisation
+- Zod for server side validation, Vitest for unit tests
 
----
+## Features
 
-## Step 1. Create the Supabase project (5 minutes)
+- Premium one-page site: animated hero carousel, About, Services, Portfolio (Precious / Ongoing / Ready works, category filters, "show more" pagination that stays fast with 100+ projects), project spotlight, Why choose us, Testimonials, Call to action, Contact, Footer
+- Dynamic project pages at `/work/<slug>` with gallery, video, related works and contact CTA
+- Admin dashboard: Dashboard statistics (real database values), Site Settings, Theme, Navigation, Hero Carousel, Hero, About, Services, Section Headings, Testimonials, Call To Action, Contact, Social Links, Footer, SEO, Portfolio (create, edit, delete, duplicate, publish and unpublish, feature, change status, reorder, galleries), Categories, Media Library, Enquiries, Users, Security, Activity Log
+- Contact form with server validation, honeypot, minimum fill time, database rate limiting and optional Resend email notification; call and WhatsApp buttons
+- SEO: per page metadata, canonical URLs, Open Graph, X card, `sitemap.xml`, `robots.txt`, JSON-LD, semantic headings, alt text
+- Accessibility: skip link, keyboard navigation, visible focus, ARIA labels, reduced motion support, accessible dialogs and forms
+- Security: password hashing, session revocation (token version), middleware plus per request authorisation, server side validation, parameterised SQL, upload content validation (real image decode, size limit, re-encoded to WebP), rate limiting, security headers, activity logging, no secrets in client code
 
-1. Go to supabase.com, create an account and click **New project**. Choose a strong database password and save it.
-2. Open **SQL Editor > New query**, paste the whole content of `supabase/schema.sql`, and click **Run**.
-3. Open **Authentication > Providers > Email** and turn **off** "Allow new users to sign up" (so only the Super Admin can create logins).
-4. Open **Authentication > Users > Add user > Create new user**. Enter your email and a strong password, and tick **Auto Confirm User**. This will be the Super Admin login.
-5. Back in **SQL Editor**, run this (replace the email with the one you just used and your name):
-
-```sql
-insert into public.profiles (id, email, full_name, role)
-select id, email, 'Your Full Name', 'super_admin'
-from auth.users where email = 'YOUR_EMAIL_HERE';
-```
-
-6. Open **Project Settings > API** and copy three values: the **Project URL**, the **anon public key**, and the **service_role key**.
-
-## Step 2. Add the public keys to the project
-
-Open `config.js` and replace the two placeholders with the Project URL and the **anon** key. These two are safe to be public.
-
-```js
-window.APP_CONFIG = {
-  SUPABASE_URL: "https://xxxx.supabase.co",
-  SUPABASE_ANON_KEY: "eyJ..."
-};
-```
-
-Never put the service_role key in this file.
-
-## Step 3. Deploy on Vercel
-
-1. Upload this folder to a GitHub repository (or use the Vercel CLI: run `vercel` inside the folder).
-2. On vercel.com click **Add New > Project**, import the repository, and set **Framework Preset** to **Other**. Leave build settings empty.
-3. Before deploying, open **Environment Variables** and add:
-   - `SUPABASE_URL` = your Project URL
-   - `SUPABASE_SERVICE_ROLE_KEY` = your service_role key
-4. Click **Deploy**.
-
-Your website is at your Vercel address. The dashboard is at `/admin`.
-
-## Step 4. Use the dashboard
-
-1. Go to `yoursite.com/admin` and sign in with the Super Admin email and password.
-2. **Website content**: edit each section, then click **Save changes**. The live site updates immediately.
-3. **Work samples**: add designs with an image upload, title, category and description. Use the arrows to reorder. Untick "Show on the website" to hide a piece without deleting it.
-4. **Team** (Super Admin only): add an admin by entering name, email and a temporary password, then send those details to them. You can also reset a password or remove an admin.
-5. **Messages**: enquiries from the contact form arrive here.
-
-## How the template idea works
-
-Every text, colour, font, link and section toggle is stored as data, not code. To reuse this for another client, deploy a copy with a new Supabase project, sign in, and replace the content. To add a new editable field, add one line to `SECTIONS` in `admin/admin.js` and use it in `assets/site.js`.
-
-## Security notes
-
-- Row Level Security is enabled on every table. Visitors can only read published content and send messages.
-- Admin creation and removal run in `api/admins.js` on the server, which checks that the caller is a Super Admin.
-- If the Super Admin forgets their own password, reset it in Supabase under Authentication > Users.
-- Keep the Super Admin password strong and do not share the service_role key.
-
-## Files
+## Architecture
 
 ```
-index.html            public one-page site
-config.js             public Supabase URL and anon key
-assets/site.css       site design
-assets/site.js        site rendering and contact form
-assets/shared.js      template defaults and helpers
-admin/index.html      dashboard page
-admin/admin.js        dashboard logic (edit SECTIONS to add fields)
-admin/admin.css       dashboard design
-api/admins.js         secure server function for adding and removing admins
-supabase/schema.sql   database, roles, security rules, image storage
-vercel.json           security headers
+migrations/        SQL migrations (applied in order by scripts/migrate.mjs)
+db/defaults.json   Single source of the editable placeholder content seeded once
+scripts/           migrate.mjs (migrations, default content, first admin)
+src/lib/           db, auth, session, validation, content (cached data access), storage, rate limiting
+src/app/(site)/    public pages (home, /work/[slug])
+src/app/admin/     dashboard pages and server actions
+src/app/api/admin/ authenticated upload and media endpoints
+src/components/    site/ and admin/ components
+tests/             unit tests
 ```
 
-## Try it before connecting Supabase
+Content model: `content_blocks` (site, theme, hero, about, headings, cta, contact, footer, seo) plus relational tables for navigation, hero slides, services, categories, projects, project images, testimonials, social links, contact submissions, media, admin users, activity logs and rate limits. Project status is a PostgreSQL enum (`PRECIOUS`, `ONGOING`, `READY`). Public reads are cached with a content tag that every admin save invalidates.
 
-Until `config.js` is filled in, the public page shows the template content with sample work tiles, so you can preview the design. The dashboard needs Supabase to sign in.
+## Local development
+
+```bash
+cp .env.example .env.local      # fill in the values
+npm install
+npm run db:migrate              # creates tables, default content and the first admin
+npm run dev
+```
+
+Public site: http://localhost:3000, admin: http://localhost:3000/admin
+
+## Environment variables
+
+See `.env.example`. Required: `DATABASE_URL`, `AUTH_SECRET` (32+ characters), `ADMIN_EMAIL` and `ADMIN_PASSWORD` (only used when no administrator exists yet), `NEXT_PUBLIC_SITE_URL`. Recommended: `BLOB_READ_WRITE_TOKEN` (image storage on Vercel). Optional: `RESEND_API_KEY`, `CONTACT_FROM_EMAIL`, `CONTACT_NOTIFY_EMAIL`.
+
+## Database setup
+
+`npm run db:migrate` (also run automatically by `npm run build`) applies pending migrations, inserts the placeholder content once (only when the content table is empty), and creates the first Super Admin from `ADMIN_EMAIL` / `ADMIN_PASSWORD` when no administrator exists. No credentials are stored in the repository. Change the password from Admin > Security after the first sign-in, then remove `ADMIN_PASSWORD` from the environment.
+
+## Testing
+
+```bash
+npm run lint && npm run typecheck && npm test && npm run build:app
+```
+
+The release was also verified in a real browser (Chromium): all breakpoints from 320px to 1920px with no horizontal overflow or console errors, admin login, project create / edit / status change / unpublish / duplicate / delete, content editing reflected on the public page, contact form validation and submission, phone and WhatsApp links, mobile menu, and protected routes returning 401 or redirects when signed out.
+
+## Deploying to Vercel
+
+1. Create a PostgreSQL database (Neon through the Vercel Marketplace has a free tier) and copy its connection string.
+2. In Vercel (team `fodan`) choose Add New > Project, import `folahandaniel-glitch/moses-portfolio`. Framework: Next.js (auto detected). Build command is `npm run build` (already the default script, it runs migrations then builds).
+3. Add environment variables: `DATABASE_URL`, `AUTH_SECRET` (`openssl rand -base64 48`), `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `ADMIN_NAME`, `NEXT_PUBLIC_SITE_URL` (your production URL).
+4. Storage tab > Create Blob store, connect it to the project (this adds `BLOB_READ_WRITE_TOKEN`).
+5. Optional: add `RESEND_API_KEY`, `CONTACT_FROM_EMAIL`, `CONTACT_NOTIFY_EMAIL` for email notifications.
+6. Deploy, open `/admin`, sign in, change the password, then delete `ADMIN_PASSWORD` from the project settings.
+
+## Content management
+
+- Add a project: Admin > Portfolio > Add project. Choose status (Precious, Ongoing, Ready), category, images, then tick Published. Drafts never appear publicly.
+- Change status, publish, feature or reorder: Admin > Portfolio, use the buttons on each row.
+- Change contact details: Admin > Contact (phone, WhatsApp number and message, email, address, hours).
+- Change the footer: Admin > Footer. Social networks: Admin > Social Links (only configured networks are shown).
+- Update SEO: Admin > SEO (site wide) and the "Search engines" section of each project.
+- Logo, favicon, colours and fonts: Admin > Site Settings and Theme.
+- Placeholder text and sample projects are clearly marked. Replace or delete them from the dashboard.
+
+## Remaining human actions
+
+- Create the Vercel project and add the environment variables above (needs your Vercel authorisation).
+- Provide real content: biography, services, projects, photography, testimonials (nothing was invented).
+- Custom domain and DNS (Cloudflare or other) when you are ready, then set `NEXT_PUBLIC_SITE_URL` and Admin > SEO > Website address.

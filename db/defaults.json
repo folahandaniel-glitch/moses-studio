@@ -1,0 +1,124 @@
+{
+  "blocks": {
+    "site": {
+      "name": "Moses Studio",
+      "tagline": "Creative Studio",
+      "logo_url": "",
+      "favicon_url": ""
+    },
+    "theme": {
+      "mode": "light",
+      "accent": "#A8743B",
+      "background": "#F6F3EE",
+      "text": "#16130F",
+      "heading_font": "serif"
+    },
+    "hero": {
+      "eyebrow": "Moses Studio",
+      "heading": "Creative work, crafted with care and clear purpose.",
+      "subtitle": "A creative studio for brands and people who value quality.",
+      "description": "Placeholder introduction. Replace this text from the admin dashboard under Hero.",
+      "primary_label": "View works",
+      "primary_href": "#works",
+      "secondary_label": "Start a conversation",
+      "secondary_href": "#contact"
+    },
+    "about": {
+      "eyebrow": "About",
+      "heading": "About Moses Studio",
+      "introduction": "Placeholder introduction. Replace this with a short welcome to your studio from the admin dashboard under About.",
+      "biography": "Placeholder biography. Add the real story of Moses Studio here, including how it started and what it stands for.",
+      "statement": "Placeholder professional statement. Describe your approach to creative work in a sentence or two.",
+      "capabilities": ["Capability one (edit in admin)", "Capability two (edit in admin)", "Capability three (edit in admin)"],
+      "years_experience": "",
+      "location": "",
+      "image_url": "",
+      "cta_label": "Work with us",
+      "cta_href": "#contact"
+    },
+    "headings": {
+      "services_eyebrow": "Services",
+      "services_heading": "What we can do for you",
+      "services_intro": "Placeholder services are listed below. Replace them with your real services in the admin dashboard.",
+      "works_eyebrow": "Portfolio",
+      "works_heading": "Selected works",
+      "works_intro": "A growing collection of projects. Filter by category to explore.",
+      "precious_title": "Precious Works",
+      "precious_intro": "Signature projects we are proudest of.",
+      "ongoing_title": "Ongoing Works",
+      "ongoing_intro": "Projects currently in progress.",
+      "ready_title": "Ready Works",
+      "ready_intro": "Completed and ready to be delivered or viewed.",
+      "categories_heading": "Browse by category",
+      "spotlight_eyebrow": "Project in focus",
+      "why_eyebrow": "Why Moses Studio",
+      "why_heading": "Why choose Moses Studio",
+      "why_items": [
+        { "title": "Clear communication", "text": "Placeholder reason. Edit this in the admin dashboard." },
+        { "title": "Considered craft", "text": "Placeholder reason. Edit this in the admin dashboard." },
+        { "title": "Reliable delivery", "text": "Placeholder reason. Edit this in the admin dashboard." }
+      ],
+      "testimonials_eyebrow": "Testimonials",
+      "testimonials_heading": "Kind words from clients"
+    },
+    "cta": {
+      "heading": "Have a project in mind?",
+      "description": "Tell us what you are planning and we will get back to you.",
+      "button_label": "Get in touch",
+      "button_href": "#contact"
+    },
+    "contact": {
+      "eyebrow": "Contact",
+      "heading": "Let us talk about your project",
+      "description": "Call, message on WhatsApp, or send the form and we will reply as soon as we can.",
+      "phone": "+234 813 419 8744",
+      "whatsapp": "+234 813 419 8744",
+      "whatsapp_message": "Hello Moses Studio, I would like to discuss a project.",
+      "email": "",
+      "notify_email": "",
+      "address": "",
+      "hours": ""
+    },
+    "footer": {
+      "text": "Moses Studio. All rights reserved.",
+      "credit": "Powered by Fodan Softnet Inc (08067578112)"
+    },
+    "seo": {
+      "title": "Moses Studio | Creative Studio Portfolio",
+      "description": "Moses Studio is a creative studio. Explore our precious, ongoing and ready works and get in touch.",
+      "og_image_url": "",
+      "twitter_handle": "",
+      "site_url": "",
+      "robots": "index",
+      "keywords": ""
+    }
+  },
+  "navigation": [
+    { "label": "Home", "href": "#home" },
+    { "label": "About", "href": "#about" },
+    { "label": "Services", "href": "#services" },
+    { "label": "Works", "href": "#works" },
+    { "label": "Contact", "href": "#contact" }
+  ],
+  "services": [
+    { "title": "Service one", "short_description": "Placeholder service. Replace with a real service from the admin dashboard.", "icon": "sparkle" },
+    { "title": "Service two", "short_description": "Placeholder service. Replace with a real service from the admin dashboard.", "icon": "layers" },
+    { "title": "Service three", "short_description": "Placeholder service. Replace with a real service from the admin dashboard.", "icon": "compass" }
+  ],
+  "categories": [
+    { "name": "Category one", "slug": "category-one", "description": "Placeholder category. Rename in the admin dashboard." },
+    { "name": "Category two", "slug": "category-two", "description": "Placeholder category. Rename in the admin dashboard." },
+    { "name": "Category three", "slug": "category-three", "description": "Placeholder category. Rename in the admin dashboard." }
+  ],
+  "slides": [
+    { "image_url": "/placeholders/slide-1.svg", "alt": "Placeholder artwork", "caption": "Placeholder slide" },
+    { "image_url": "/placeholders/slide-2.svg", "alt": "Placeholder artwork", "caption": "Placeholder slide" },
+    { "image_url": "/placeholders/slide-3.svg", "alt": "Placeholder artwork", "caption": "Placeholder slide" }
+  ],
+  "projects": [
+    { "title": "Sample Project 01", "slug": "sample-project-01", "category": "category-one", "status": "PRECIOUS", "image": "/placeholders/work-1.svg", "featured": true },
+    { "title": "Sample Project 02", "slug": "sample-project-02", "category": "category-two", "status": "PRECIOUS", "image": "/placeholders/work-2.svg", "featured": false },
+    { "title": "Sample Project 03", "slug": "sample-project-03", "category": "category-three", "status": "ONGOING", "image": "/placeholders/work-3.svg", "featured": false },
+    { "title": "Sample Project 04", "slug": "sample-project-04", "category": "category-one", "status": "READY", "image": "/placeholders/work-4.svg", "featured": false }
+  ]
+}
