@@ -68,7 +68,10 @@ export function youtubeEmbed(url: string): string | null {
 const triplet = (hex: string, fallback: string) => hexToRgbTriplet(hex, fallback).split(" ").map(Number);
 const mix = (a: number[], b: number[], t: number) => a.map((v, i) => Math.round(v + (b[i] - v) * t)).join(" ");
 
-export interface ThemeInput { mode: string; accent: string; background: string; text: string }
+export interface ThemeInput {
+  mode: string; accent: string; background: string; text: string;
+  accent2?: string; accent3?: string; footer_bg?: string; color_precious?: string; color_ongoing?: string; color_ready?: string;
+}
 
 /** Turns the editable theme into the CSS variables used by Tailwind colour tokens. */
 export function themeVars(theme: ThemeInput): Record<string, string> {
@@ -84,5 +87,11 @@ export function themeVars(theme: ThemeInput): Record<string, string> {
     "--c-line": mix(bg, ink, dark ? 0.16 : 0.13),
     "--c-accent": accent.join(" "),
     "--c-accent-ink": readableOn(theme.accent),
+    "--c-accent2": triplet(theme.accent2 ?? "", "14 165 164").join(" "),
+    "--c-accent3": triplet(theme.accent3 ?? "", "249 115 22").join(" "),
+    "--c-footer": triplet(theme.footer_bg ?? "", "20 20 43").join(" "),
+    "--c-precious": triplet(theme.color_precious ?? "", "217 119 6").join(" "),
+    "--c-ongoing": triplet(theme.color_ongoing ?? "", "37 99 235").join(" "),
+    "--c-ready": triplet(theme.color_ready ?? "", "5 150 105").join(" "),
   };
 }

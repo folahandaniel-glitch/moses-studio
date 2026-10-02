@@ -38,7 +38,8 @@ export function Carousel({ slides }: { slides: Slide[] }) {
           <Image src={s.image_url} alt={s.alt} fill sizes="100vw" priority={i === 0} loading={i === 0 ? "eager" : "lazy"} quality={80} className={cn("object-cover", i === index && !reduced && "kenburns")} unoptimized={s.image_url.endsWith(".svg")} />
         </div>
       ))}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-black/45" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/40" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-accent/40 via-transparent to-accent3/30" />
       {count > 1 && (
         <div className="absolute inset-x-0 bottom-6 z-10 sm:bottom-8">
           <div className="container-page flex items-center justify-between gap-4 text-white">

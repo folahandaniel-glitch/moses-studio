@@ -60,13 +60,13 @@ export default async function ProjectPage({ params }: Params) {
           {project.external_url && <a href={safeHref(project.external_url)} target="_blank" rel="noopener noreferrer" className="btn btn-primary mt-9">Visit project <Icon name="arrowUpRight" className="h-4 w-4" /><span className="sr-only"> (opens in a new tab)</span></a>}
         </div>
         <aside className="lg:col-span-5" aria-label="Project information">
-          <div className="rounded-3xl border border-line bg-surface p-7">
+          <div className="rounded-3xl border-t-4 border-accent bg-surface p-7 shadow-sm ring-1 ring-line">
             <h2 className="text-xl font-medium">Project information</h2>
             <dl className="mt-5 divide-y divide-line text-sm">
               {facts.map(([k, v]) => <div key={k} className="flex justify-between gap-4 py-3"><dt className="text-muted">{k}</dt><dd className="text-right font-medium">{v}</dd></div>)}
             </dl>
-            {project.services_provided.length > 0 && <div className="mt-5"><p className="text-sm text-muted">Services provided</p><ul className="mt-2 flex flex-wrap gap-2">{project.services_provided.map((s) => <li key={s} className="rounded-full border border-line px-3 py-1 text-sm">{s}</li>)}</ul></div>}
-            {project.tools_used.length > 0 && <div className="mt-5"><p className="text-sm text-muted">Tools and technologies</p><ul className="mt-2 flex flex-wrap gap-2">{project.tools_used.map((s) => <li key={s} className="rounded-full border border-line px-3 py-1 text-sm">{s}</li>)}</ul></div>}
+            {project.services_provided.length > 0 && <div className="mt-5"><p className="text-sm text-muted">Services provided</p><ul className="mt-2 flex flex-wrap gap-2">{project.services_provided.map((s) => <li key={s} className="rounded-full bg-accent/10 px-3 py-1 text-sm font-medium text-accent">{s}</li>)}</ul></div>}
+            {project.tools_used.length > 0 && <div className="mt-5"><p className="text-sm text-muted">Tools and technologies</p><ul className="mt-2 flex flex-wrap gap-2">{project.tools_used.map((s) => <li key={s} className="rounded-full bg-accent2/10 px-3 py-1 text-sm font-medium text-accent2">{s}</li>)}</ul></div>}
           </div>
         </aside>
       </div>
@@ -85,7 +85,7 @@ export default async function ProjectPage({ params }: Params) {
       )}
 
       {related.length > 0 && (
-        <section aria-labelledby="related-h" className="border-t border-line bg-surface py-16 sm:py-24">
+        <section aria-labelledby="related-h" className="bg-gradient-to-b from-accent/[0.07] to-accent2/[0.07] py-16 sm:py-24">
           <div className="container-page">
             <h2 id="related-h" className="h-section mb-10">Related works</h2>
             <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">{related.map((p) => <ProjectCardView key={p.id} project={p} />)}</div>

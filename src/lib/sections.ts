@@ -37,9 +37,15 @@ export const SECTIONS: Record<string, SectionDef> = {
     description: "Colours and typography of the public website.",
     fields: [
       { name: "mode", label: "Appearance", type: "select", options: [{ value: "light", label: "Light" }, { value: "dark", label: "Dark" }] },
-      { name: "accent", label: "Accent colour", type: "color" },
-      { name: "background", label: "Background colour", type: "color" },
-      { name: "text", label: "Text colour", type: "color" },
+      { name: "accent", label: "Primary colour", type: "color", help: "Buttons, links and highlights." },
+      { name: "accent2", label: "Secondary colour", type: "color", help: "Second highlight used in cards, icons and gradients." },
+      { name: "accent3", label: "Third colour", type: "color", help: "Third highlight used in gradients and accents." },
+      { name: "background", label: "Page background colour", type: "color", help: "Applies to the Light appearance." },
+      { name: "text", label: "Text colour", type: "color", help: "Applies to the Light appearance." },
+      { name: "footer_bg", label: "Footer colour", type: "color" },
+      { name: "color_precious", label: "Precious Works colour", type: "color" },
+      { name: "color_ongoing", label: "Ongoing Works colour", type: "color" },
+      { name: "color_ready", label: "Ready Works colour", type: "color" },
       { name: "heading_font", label: "Heading style", type: "select", options: [{ value: "serif", label: "Elegant serif" }, { value: "sans", label: "Modern sans" }] },
     ],
   },
@@ -110,7 +116,7 @@ export const SECTIONS: Record<string, SectionDef> = {
   footer: {
     title: "Footer",
     description: "Text shown at the bottom of every page.",
-    fields: [t("text", "Footer text", "The copyright year is added automatically."), t("credit", "Credit line")],
+    fields: [t("text", "Footer text", "The copyright year is added automatically."), t("credit", "Credit line"), t("backend_label", "Back end link label", "The small link to the dashboard sign in. Leave empty to hide it.", 30)],
   },
   seo: {
     title: "SEO and Sharing",

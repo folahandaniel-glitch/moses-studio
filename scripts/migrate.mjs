@@ -75,17 +75,24 @@ async function main() {
     console.log("[migrate] inserted default placeholder content");
   }
 
-  const [{ count: admins }] = await sql`select count(*)::int as count from ms_admin_users`;
-  if (admins === 0) {
-    const email = (process.env.ADMIN_EMAIL || "").trim().toLowerCase();
-    const password = process.env.ADMIN_PASSWORD || "";
-    if (email && password.length >= 10) {
-      const hash = await bcrypt.hash(password, 12);
-      await sql`insert into ms_admin_users (email, name, password_hash, role) values (${email}, ${process.env.ADMIN_NAME || "Administrator"}, ${hash}, 'SUPER_ADMIN')`;
-      console.log("[migrate] created first administrator account");
+  // ADMIN_EMAIL / ADMIN_PASSWORD describe the owner account. It is created when missing, and its password is
+  // re-applied from the environment if it differs, so the owner can always sign in with the values set in Vercel.
+  const email = (process.env.ADMIN_EMAIL || "").trim().toLowerCase();
+  const password = process.env.ADMIN_PASSWORD || "";
+  if (email && password.length >= 10) {
+    const [existing] = await sql`select id, password_hash from ms_admin_users where email = ${email}`;
+    if (!existing) {
+      await sql`insert into ms_admin_users (email, name, password_hash, role) values (${email}, ${process.env.ADMIN_NAME || "Administrator"}, ${await bcrypt.hash(password, 12)}, 'SUPER_ADMIN')`;
+      log("created administrator account");
+    } else if (!(await bcrypt.compare(password, existing.password_hash))) {
+      await sql`update ms_admin_users set password_hash = ${await bcrypt.hash(password, 12)}, token_version = token_version + 1, active = true, role = 'SUPER_ADMIN' where id = ${existing.id}`;
+      log("administrator password updated from ADMIN_PASSWORD");
     } else {
-      console.log("[migrate] no administrator exists. Set ADMIN_EMAIL and ADMIN_PASSWORD (min 10 characters) and run again.");
+      log("administrator account is up to date");
     }
+  } else {
+    const [{ count }] = await sql`select count(*)::int as count from ms_admin_users`;
+    if (count === 0) log("no administrator exists. Set ADMIN_EMAIL and ADMIN_PASSWORD (min 10 characters) and deploy again.");
   }
 }
 

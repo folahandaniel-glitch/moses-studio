@@ -13,7 +13,10 @@ export interface Pair {
 }
 
 export interface SiteBlock { name: string; tagline: string; logo_url: string; favicon_url: string }
-export interface ThemeBlock { mode: "light" | "dark"; accent: string; background: string; text: string; heading_font: "serif" | "sans" }
+export interface ThemeBlock {
+  mode: "light" | "dark"; accent: string; accent2: string; accent3: string; background: string; text: string; footer_bg: string;
+  color_precious: string; color_ongoing: string; color_ready: string; heading_font: "serif" | "sans";
+}
 export interface HeroBlock { eyebrow: string; heading: string; subtitle: string; description: string; primary_label: string; primary_href: string; secondary_label: string; secondary_href: string }
 export interface AboutBlock { eyebrow: string; heading: string; introduction: string; biography: string; statement: string; capabilities: string[]; years_experience: string; location: string; image_url: string; cta_label: string; cta_href: string }
 export interface HeadingsBlock {
@@ -26,7 +29,7 @@ export interface HeadingsBlock {
 }
 export interface CtaBlock { heading: string; description: string; button_label: string; button_href: string }
 export interface ContactBlock { eyebrow: string; heading: string; description: string; phone: string; whatsapp: string; whatsapp_message: string; email: string; notify_email: string; address: string; hours: string }
-export interface FooterBlock { text: string; credit: string }
+export interface FooterBlock { text: string; credit: string; backend_label: string }
 export interface SeoBlock { title: string; description: string; og_image_url: string; twitter_handle: string; site_url: string; robots: "index" | "noindex"; keywords: string }
 
 export interface Blocks {

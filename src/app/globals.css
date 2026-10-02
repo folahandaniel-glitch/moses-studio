@@ -3,8 +3,10 @@
 @tailwind utilities;
 
 :root {
-  --c-bg: 246 243 238; --c-ink: 22 19 15; --c-surface: 235 232 227; --c-muted: 120 117 112;
-  --c-line: 220 217 212; --c-accent: 168 116 59; --c-accent-ink: 255 255 255;
+  --c-bg: 250 250 255; --c-ink: 20 20 43; --c-surface: 238 238 248; --c-muted: 110 110 135;
+  --c-line: 222 222 238; --c-accent: 91 75 219; --c-accent-ink: 255 255 255;
+  --c-accent2: 14 165 164; --c-accent3: 249 115 22; --c-footer: 20 20 43;
+  --c-precious: 217 119 6; --c-ongoing: 37 99 235; --c-ready: 5 150 105;
 }
 
 @layer base {
@@ -43,8 +45,10 @@
 .no-scrollbar::-webkit-scrollbar { display: none; }
 
 .admin-root {
-  --c-bg: 245 244 241; --c-ink: 22 19 15; --c-surface: 255 255 255; --c-muted: 107 104 98;
-  --c-line: 226 223 217; --c-accent: 168 116 59; --c-accent-ink: 255 255 255;
+  --c-bg: 243 243 251; --c-ink: 20 20 43; --c-surface: 255 255 255; --c-muted: 100 100 125;
+  --c-line: 224 224 238; --c-accent: 91 75 219; --c-accent-ink: 255 255 255;
+  --c-accent2: 14 165 164; --c-accent3: 249 115 22; --c-footer: 20 20 43;
+  --c-precious: 217 119 6; --c-ongoing: 37 99 235; --c-ready: 5 150 105;
   --font-display: var(--font-sans);
   @apply bg-bg text-ink;
 }

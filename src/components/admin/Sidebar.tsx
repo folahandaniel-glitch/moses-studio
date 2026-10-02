@@ -22,7 +22,7 @@ export function Sidebar({ groups, userName, role, logoutAction }: { groups: NavG
             <p className="px-3 pb-1.5 text-[11px] font-semibold uppercase tracking-widest opacity-50">{g.heading}</p>
             <ul>{g.items.map((it) => (
               <li key={it.href}><Link href={it.href} onClick={() => setOpen(false)} aria-current={active(it.href) ? "page" : undefined}
-                className={cn("flex items-center justify-between rounded-lg px-3 py-2 text-sm transition", active(it.href) ? "bg-white/12 font-semibold" : "opacity-80 hover:bg-white/8 hover:opacity-100")}>
+                className={cn("flex items-center justify-between rounded-lg px-3 py-2 text-sm transition", active(it.href) ? "bg-accent font-semibold text-accent-ink" : "opacity-80 hover:bg-white/8 hover:opacity-100")}>
                 {it.label}{!!it.badge && <span className="rounded-full bg-accent px-2 py-0.5 text-[11px] font-semibold text-accent-ink">{it.badge}</span>}
               </Link></li>
             ))}</ul>
@@ -42,12 +42,12 @@ export function Sidebar({ groups, userName, role, logoutAction }: { groups: NavG
 
   return (
     <>
-      <div className="sticky top-0 z-30 flex h-14 items-center justify-between bg-[#16130F] px-4 text-white lg:hidden">
+      <div className="sticky top-0 z-30 flex h-14 items-center justify-between bg-[#14142B] px-4 text-white lg:hidden">
         <p className="font-semibold">Moses Studio Admin</p>
         <button type="button" onClick={() => setOpen((o) => !o)} aria-expanded={open} aria-controls="admin-drawer" aria-label={open ? "Close menu" : "Open menu"} className="flex h-11 w-11 items-center justify-center"><Icon name={open ? "close" : "menu"} /></button>
       </div>
-      {open && <div id="admin-drawer" className="fixed inset-x-0 bottom-0 top-14 z-30 overflow-y-auto bg-[#16130F] text-white lg:hidden">{content}</div>}
-      <aside className="fixed inset-y-0 left-0 hidden w-64 bg-[#16130F] text-white lg:block">{content}</aside>
+      {open && <div id="admin-drawer" className="fixed inset-x-0 bottom-0 top-14 z-30 overflow-y-auto bg-[#14142B] text-white lg:hidden">{content}</div>}
+      <aside className="fixed inset-y-0 left-0 hidden w-64 bg-[#14142B] text-white lg:block">{content}</aside>
     </>
   );
 }

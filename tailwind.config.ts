@@ -12,6 +12,12 @@ const config: Config = {
         line: "rgb(var(--c-line) / <alpha-value>)",
         accent: "rgb(var(--c-accent) / <alpha-value>)",
         "accent-ink": "rgb(var(--c-accent-ink) / <alpha-value>)",
+        accent2: "rgb(var(--c-accent2) / <alpha-value>)",
+        accent3: "rgb(var(--c-accent3) / <alpha-value>)",
+        footer: "rgb(var(--c-footer) / <alpha-value>)",
+        precious: "rgb(var(--c-precious) / <alpha-value>)",
+        ongoing: "rgb(var(--c-ongoing) / <alpha-value>)",
+        ready: "rgb(var(--c-ready) / <alpha-value>)",
       },
       fontFamily: {
         display: ["var(--font-display, var(--font-serif))", "Georgia", "serif"],

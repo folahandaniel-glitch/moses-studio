@@ -45,7 +45,7 @@ export function Header({ name, logoUrl, nav, ctaLabel, ctaHref, overHero }: Prop
           {nav.map((n) => (
             <a key={n.id} href={href(n.href)} className="text-sm font-medium opacity-80 transition hover:opacity-100">{n.label}</a>
           ))}
-          {ctaLabel && <a href={href(ctaHref)} className={cn("btn !min-h-[40px] !px-5", solid ? "btn-primary" : "bg-white text-black hover:bg-white/90")}>{ctaLabel}</a>}
+          {ctaLabel && <a href={href(ctaHref)} className={cn("btn !min-h-[40px] !px-5", "btn-primary")}>{ctaLabel}</a>}
         </nav>
         <button type="button" className="-mr-2 flex h-11 w-11 items-center justify-center md:hidden" aria-expanded={open} aria-controls="mobile-menu" aria-label={open ? "Close menu" : "Open menu"} onClick={() => setOpen((v) => !v)}>
           <Icon name={open ? "close" : "menu"} className="h-6 w-6" />

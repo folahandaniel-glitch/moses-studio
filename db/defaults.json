@@ -8,10 +8,16 @@
     },
     "theme": {
       "mode": "light",
-      "accent": "#A8743B",
-      "background": "#F6F3EE",
-      "text": "#16130F",
-      "heading_font": "serif"
+      "accent": "#5B4BDB",
+      "background": "#FAFAFF",
+      "text": "#14142B",
+      "heading_font": "serif",
+      "accent2": "#0EA5A4",
+      "accent3": "#F97316",
+      "footer_bg": "#14142B",
+      "color_precious": "#D97706",
+      "color_ongoing": "#2563EB",
+      "color_ready": "#059669"
     },
     "hero": {
       "eyebrow": "Moses Studio",
@@ -29,7 +35,11 @@
       "introduction": "Placeholder introduction. Replace this with a short welcome to your studio from the admin dashboard under About.",
       "biography": "Placeholder biography. Add the real story of Moses Studio here, including how it started and what it stands for.",
       "statement": "Placeholder professional statement. Describe your approach to creative work in a sentence or two.",
-      "capabilities": ["Capability one (edit in admin)", "Capability two (edit in admin)", "Capability three (edit in admin)"],
+      "capabilities": [
+        "Capability one (edit in admin)",
+        "Capability two (edit in admin)",
+        "Capability three (edit in admin)"
+      ],
       "years_experience": "",
       "location": "",
       "image_url": "",
@@ -54,9 +64,18 @@
       "why_eyebrow": "Why Moses Studio",
       "why_heading": "Why choose Moses Studio",
       "why_items": [
-        { "title": "Clear communication", "text": "Placeholder reason. Edit this in the admin dashboard." },
-        { "title": "Considered craft", "text": "Placeholder reason. Edit this in the admin dashboard." },
-        { "title": "Reliable delivery", "text": "Placeholder reason. Edit this in the admin dashboard." }
+        {
+          "title": "Clear communication",
+          "text": "Placeholder reason. Edit this in the admin dashboard."
+        },
+        {
+          "title": "Considered craft",
+          "text": "Placeholder reason. Edit this in the admin dashboard."
+        },
+        {
+          "title": "Reliable delivery",
+          "text": "Placeholder reason. Edit this in the admin dashboard."
+        }
       ],
       "testimonials_eyebrow": "Testimonials",
       "testimonials_heading": "Kind words from clients"
@@ -81,7 +100,8 @@
     },
     "footer": {
       "text": "Moses Studio. All rights reserved.",
-      "credit": "Powered by Fodan Softnet Inc (08067578112)"
+      "credit": "Powered by Fodan Softnet Inc (08067578112)",
+      "backend_label": "BackEnd"
     },
     "seo": {
       "title": "Moses Studio | Creative Studio Portfolio",
@@ -94,31 +114,110 @@
     }
   },
   "navigation": [
-    { "label": "Home", "href": "#home" },
-    { "label": "About", "href": "#about" },
-    { "label": "Services", "href": "#services" },
-    { "label": "Works", "href": "#works" },
-    { "label": "Contact", "href": "#contact" }
+    {
+      "label": "Home",
+      "href": "#home"
+    },
+    {
+      "label": "About",
+      "href": "#about"
+    },
+    {
+      "label": "Services",
+      "href": "#services"
+    },
+    {
+      "label": "Works",
+      "href": "#works"
+    },
+    {
+      "label": "Contact",
+      "href": "#contact"
+    }
   ],
   "services": [
-    { "title": "Service one", "short_description": "Placeholder service. Replace with a real service from the admin dashboard.", "icon": "sparkle" },
-    { "title": "Service two", "short_description": "Placeholder service. Replace with a real service from the admin dashboard.", "icon": "layers" },
-    { "title": "Service three", "short_description": "Placeholder service. Replace with a real service from the admin dashboard.", "icon": "compass" }
+    {
+      "title": "Service one",
+      "short_description": "Placeholder service. Replace with a real service from the admin dashboard.",
+      "icon": "sparkle"
+    },
+    {
+      "title": "Service two",
+      "short_description": "Placeholder service. Replace with a real service from the admin dashboard.",
+      "icon": "layers"
+    },
+    {
+      "title": "Service three",
+      "short_description": "Placeholder service. Replace with a real service from the admin dashboard.",
+      "icon": "compass"
+    }
   ],
   "categories": [
-    { "name": "Category one", "slug": "category-one", "description": "Placeholder category. Rename in the admin dashboard." },
-    { "name": "Category two", "slug": "category-two", "description": "Placeholder category. Rename in the admin dashboard." },
-    { "name": "Category three", "slug": "category-three", "description": "Placeholder category. Rename in the admin dashboard." }
+    {
+      "name": "Category one",
+      "slug": "category-one",
+      "description": "Placeholder category. Rename in the admin dashboard."
+    },
+    {
+      "name": "Category two",
+      "slug": "category-two",
+      "description": "Placeholder category. Rename in the admin dashboard."
+    },
+    {
+      "name": "Category three",
+      "slug": "category-three",
+      "description": "Placeholder category. Rename in the admin dashboard."
+    }
   ],
   "slides": [
-    { "image_url": "/placeholders/slide-1.svg", "alt": "Placeholder artwork", "caption": "Placeholder slide" },
-    { "image_url": "/placeholders/slide-2.svg", "alt": "Placeholder artwork", "caption": "Placeholder slide" },
-    { "image_url": "/placeholders/slide-3.svg", "alt": "Placeholder artwork", "caption": "Placeholder slide" }
+    {
+      "image_url": "/placeholders/slide-1.svg",
+      "alt": "Placeholder artwork",
+      "caption": "Placeholder slide"
+    },
+    {
+      "image_url": "/placeholders/slide-2.svg",
+      "alt": "Placeholder artwork",
+      "caption": "Placeholder slide"
+    },
+    {
+      "image_url": "/placeholders/slide-3.svg",
+      "alt": "Placeholder artwork",
+      "caption": "Placeholder slide"
+    }
   ],
   "projects": [
-    { "title": "Sample Project 01", "slug": "sample-project-01", "category": "category-one", "status": "PRECIOUS", "image": "/placeholders/work-1.svg", "featured": true },
-    { "title": "Sample Project 02", "slug": "sample-project-02", "category": "category-two", "status": "PRECIOUS", "image": "/placeholders/work-2.svg", "featured": false },
-    { "title": "Sample Project 03", "slug": "sample-project-03", "category": "category-three", "status": "ONGOING", "image": "/placeholders/work-3.svg", "featured": false },
-    { "title": "Sample Project 04", "slug": "sample-project-04", "category": "category-one", "status": "READY", "image": "/placeholders/work-4.svg", "featured": false }
+    {
+      "title": "Sample Project 01",
+      "slug": "sample-project-01",
+      "category": "category-one",
+      "status": "PRECIOUS",
+      "image": "/placeholders/work-1.svg",
+      "featured": true
+    },
+    {
+      "title": "Sample Project 02",
+      "slug": "sample-project-02",
+      "category": "category-two",
+      "status": "PRECIOUS",
+      "image": "/placeholders/work-2.svg",
+      "featured": false
+    },
+    {
+      "title": "Sample Project 03",
+      "slug": "sample-project-03",
+      "category": "category-three",
+      "status": "ONGOING",
+      "image": "/placeholders/work-3.svg",
+      "featured": false
+    },
+    {
+      "title": "Sample Project 04",
+      "slug": "sample-project-04",
+      "category": "category-one",
+      "status": "READY",
+      "image": "/placeholders/work-4.svg",
+      "featured": false
+    }
   ]
 }

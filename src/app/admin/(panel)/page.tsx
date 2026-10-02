@@ -14,6 +14,7 @@ export default async function Dashboard() {
   const [{ enquiries, unread }] = await sql<{ enquiries: number; unread: number }[]>`select count(*)::int as enquiries, count(*) filter (where not is_read)::int as unread from ms_contact_submissions`;
   const recent = await sql<{ id: string; name: string; subject: string; created_at: Date; is_read: boolean }[]>`select id, name, subject, created_at, is_read from ms_contact_submissions order by created_at desc limit 5`;
 
+  const TONE = ["border-accent", "border-precious", "border-ongoing", "border-ready", "border-accent2", "border-accent3", "border-accent"];
   const cards: [string, number, string?][] = [
     ["Total projects", stats.total], ["Precious works", stats.precious], ["Ongoing works", stats.ongoing], ["Ready works", stats.ready],
     ["Published", stats.published], ["Drafts", stats.draft], ["Contact enquiries", enquiries, unread ? `${unread} unread` : undefined],
@@ -22,8 +23,8 @@ export default async function Dashboard() {
     <>
       <PageHeader title="Dashboard" description="A live overview of your portfolio and enquiries." action={<Link href="/admin/projects/new" className="btn btn-primary btn-sm">Add project</Link>} />
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-        {cards.map(([label, value, note]) => (
-          <div key={label} className="admin-card !p-5"><p className="text-sm text-muted">{label}</p><p className="mt-2 text-4xl font-semibold tabular-nums">{value}</p>{note && <p className="mt-1 text-xs font-semibold text-accent">{note}</p>}</div>
+        {cards.map(([label, value, note], i) => (
+          <div key={label} className={`admin-card !p-5 border-t-4 ${TONE[i]}`}><p className="text-sm text-muted">{label}</p><p className="mt-2 text-4xl font-semibold tabular-nums">{value}</p>{note && <p className="mt-1 text-xs font-semibold text-accent">{note}</p>}</div>
         ))}
       </div>
       <h2 className="mb-4 mt-12 text-lg font-semibold">Latest enquiries</h2>

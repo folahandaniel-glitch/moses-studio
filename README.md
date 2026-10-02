@@ -94,3 +94,7 @@ The release was also verified in a real browser (Chromium): all breakpoints from
 ## Shared databases
 
 Every table and type of this app is prefixed `ms_` (for example `ms_projects`), so it can safely share a PostgreSQL database with other applications without name clashes. Migrations only ever create or change `ms_` objects. If the host provides `DATABASE_URL_UNPOOLED` it is used for migrations; the running site uses `DATABASE_URL`.
+
+## Owner login
+
+`ADMIN_EMAIL` and `ADMIN_PASSWORD` (set in Vercel, never in the repository) define the owner account. On every deploy the account is created if missing, and its password is re-applied if it differs from `ADMIN_PASSWORD`. To change the password from the dashboard instead, change it under Security and then remove `ADMIN_PASSWORD` from the Vercel environment so the deploy no longer overrides it. The small "BackEnd" link under the footer credit opens `/admin/login`; its label is editable under Footer (empty hides it).

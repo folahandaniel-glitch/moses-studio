@@ -6,6 +6,11 @@ import { cn } from "@/lib/utils";
 import type { Category, HeadingsBlock, ProjectCard, ProjectStatus } from "@/lib/types";
 
 const PAGE_SIZE = 6;
+const GROUP_STYLE: Record<ProjectStatus, { border: string; dot: string }> = {
+  PRECIOUS: { border: "border-precious", dot: "bg-precious" },
+  ONGOING: { border: "border-ongoing", dot: "bg-ongoing" },
+  READY: { border: "border-ready", dot: "bg-ready" },
+};
 
 export function WorksExplorer({ projects, categories, headings }: { projects: ProjectCard[]; categories: Category[]; headings: HeadingsBlock }) {
   const [active, setActive] = useState<string>("all");
@@ -38,7 +43,7 @@ export function WorksExplorer({ projects, categories, headings }: { projects: Pr
           <div className="no-scrollbar -mx-5 flex gap-2 overflow-x-auto px-5 pb-1 sm:mx-0 sm:flex-wrap sm:px-0">
             {[{ slug: "all", name: "All works", n: projects.length }, ...visibleCategories.map((c) => ({ slug: c.slug, name: c.name, n: counts.get(c.slug) ?? 0 }))].map((c) => (
               <button key={c.slug} type="button" onClick={() => select(c.slug)} aria-pressed={active === c.slug}
-                className={cn("shrink-0 rounded-full border px-5 py-2.5 text-sm font-medium transition", active === c.slug ? "border-ink bg-ink text-bg" : "border-line hover:border-ink")}>
+                className={cn("shrink-0 rounded-full border px-5 py-2.5 text-sm font-medium transition", active === c.slug ? "border-accent bg-accent text-accent-ink shadow-md shadow-accent/25" : "border-line hover:border-accent hover:text-accent")}>
                 {c.name} <span className={cn("ml-1 text-xs", active === c.slug ? "opacity-70" : "text-muted")}>{c.n}</span>
               </button>
             ))}
@@ -54,8 +59,8 @@ export function WorksExplorer({ projects, categories, headings }: { projects: Pr
           return (
             <section key={g.status} id={g.status.toLowerCase()} aria-labelledby={`h-${g.status}`}>
               <Reveal>
-                <div className="mb-8 flex flex-col justify-between gap-2 border-b border-line pb-5 sm:flex-row sm:items-end">
-                  <h3 id={`h-${g.status}`} className="text-2xl font-medium sm:text-3xl">{g.title}</h3>
+                <div className={cn("mb-8 flex flex-col justify-between gap-2 border-b-2 pb-5 sm:flex-row sm:items-end", GROUP_STYLE[g.status].border)}>
+                  <h3 id={`h-${g.status}`} className="flex items-center gap-3 text-2xl font-medium sm:text-3xl"><span className={cn("h-3 w-3 rounded-full", GROUP_STYLE[g.status].dot)} aria-hidden="true" />{g.title}</h3>
                   <p className="max-w-md text-sm text-muted sm:text-right">{g.intro}</p>
                 </div>
               </Reveal>
