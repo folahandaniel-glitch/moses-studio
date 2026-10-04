@@ -98,3 +98,7 @@ Every table and type of this app is prefixed `ms_` (for example `ms_projects`), 
 ## Owner login
 
 `ADMIN_EMAIL` and `ADMIN_PASSWORD` (set in Vercel, never in the repository) define the owner account. On every deploy the account is created if missing, and its password is re-applied if it differs from `ADMIN_PASSWORD`. To change the password from the dashboard instead, change it under Security and then remove `ADMIN_PASSWORD` from the Vercel environment so the deploy no longer overrides it. The small "BackEnd" link under the footer credit opens `/admin/login`; its label is editable under Footer (empty hides it).
+
+## Placeholder portfolio images
+
+`public/portfolio/` holds the placeholder pictures used by the sample projects, hero carousel, services, process steps and gallery. Replace any of them from the dashboard (Portfolio, Hero Carousel, Services, Process Steps, Studio Gallery, About). Images in `public/portfolio/` can be deleted once nothing references them.

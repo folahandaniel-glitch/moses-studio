@@ -18,7 +18,7 @@ export default async function PanelLayout({ children }: { children: React.ReactN
     { heading: "Website", items: [
       { href: "/admin/content/site", label: SECTIONS.site.title }, { href: "/admin/content/theme", label: SECTIONS.theme.title },
       { href: "/admin/c/navigation", label: COLLECTIONS.navigation.title }, { href: "/admin/c/hero_slides", label: COLLECTIONS.hero_slides.title },
-      { href: "/admin/content/hero", label: "Hero" }, { href: "/admin/content/about", label: "About" }, { href: "/admin/c/services", label: "Services" },
+      { href: "/admin/content/hero", label: "Hero" }, { href: "/admin/content/about", label: "About" }, { href: "/admin/c/services", label: "Services" }, { href: "/admin/c/process_steps", label: "Process Steps" }, { href: "/admin/c/gallery_images", label: "Studio Gallery" },
       { href: "/admin/content/headings", label: "Section Headings" }, { href: "/admin/c/testimonials", label: "Testimonials" }, { href: "/admin/content/cta", label: "Call To Action" },
       { href: "/admin/content/contact", label: "Contact" }, { href: "/admin/c/social_links", label: "Social Links" }, { href: "/admin/content/footer", label: "Footer" }, { href: "/admin/content/seo", label: "SEO" },
     ] },

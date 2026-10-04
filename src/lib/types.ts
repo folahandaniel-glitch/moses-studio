@@ -24,6 +24,8 @@ export interface HeadingsBlock {
   works_eyebrow: string; works_heading: string; works_intro: string;
   precious_title: string; precious_intro: string; ongoing_title: string; ongoing_intro: string; ready_title: string; ready_intro: string;
   categories_heading: string; spotlight_eyebrow: string;
+  process_eyebrow: string; process_heading: string; process_intro: string;
+  gallery_eyebrow: string; gallery_heading: string; gallery_intro: string;
   why_eyebrow: string; why_heading: string; why_items: Pair[];
   testimonials_eyebrow: string; testimonials_heading: string;
 }
@@ -41,6 +43,8 @@ export type BlockName = keyof Blocks;
 export interface NavItem { id: string; label: string; href: string }
 export interface Slide { id: string; image_url: string; alt: string; caption: string; link_href: string }
 export interface Service { id: string; title: string; short_description: string; detailed_description: string; icon: string; image_url: string }
+export interface ProcessStep { id: string; title: string; description: string; image_url: string }
+export interface GalleryImage { id: string; image_url: string; alt: string; caption: string }
 export interface Category { id: string; name: string; slug: string; description: string }
 export interface Testimonial { id: string; author_name: string; author_role: string; quote: string; avatar_url: string }
 export interface SocialLink { id: string; network: string; url: string }
@@ -64,6 +68,8 @@ export interface SiteData {
   navigation: NavItem[];
   slides: Slide[];
   services: Service[];
+  process: ProcessStep[];
+  gallery: GalleryImage[];
   categories: Category[];
   projects: ProjectCard[];
   testimonials: Testimonial[];

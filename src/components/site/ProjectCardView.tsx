@@ -12,7 +12,7 @@ export function ProjectCardView({ project, large = false, priority = false }: { 
       <Link href={`/work/${project.slug}`} className="relative block overflow-hidden rounded-2xl bg-surface ring-1 ring-line transition duration-300 group-hover:ring-2 group-hover:ring-accent/50" aria-label={`View project: ${project.title}`}>
         <div className={cn("relative w-full", large ? "aspect-[4/3] sm:aspect-[16/10]" : "aspect-[4/5]")}>
           {project.featured_image_url ? (
-            <Image src={project.featured_image_url} alt={`${project.title}${project.category_name ? `, ${project.category_name}` : ""}`} fill sizes={large ? "(min-width:1024px) 66vw, 100vw" : "(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"} priority={priority} className="object-cover transition duration-700 ease-out group-hover:scale-[1.04]" unoptimized={project.featured_image_url.endsWith(".svg")} />
+            <Image src={project.featured_image_url} alt={`${project.title}${project.category_name ? `, ${project.category_name}` : ""}`} fill sizes={large ? "(min-width:1024px) 66vw, 100vw" : "(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"} priority={priority} className="object-cover object-[50%_30%] transition duration-700 ease-out group-hover:scale-[1.04]" unoptimized={project.featured_image_url.endsWith(".svg")} />
           ) : (
             <div className="flex h-full items-center justify-center text-sm text-muted">No image yet</div>
           )}

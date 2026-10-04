@@ -39,6 +39,16 @@ export const COLLECTIONS: Record<string, CollectionDef> = {
     description: "What Moses Studio offers. Each service appears as a card on the website.",
     fields: [text("title", "Title", 120), area("short_description", "Short description", 400), area("detailed_description", "Detailed description", 3000, "Shown when a visitor opens Learn more."), { name: "icon", label: "Icon", type: "select", options: opts(SERVICE_ICONS) }, image("image_url", "Image", "Optional. Replaces the icon when set."), { name: "published", label: "Show on the website", type: "boolean" }],
   },
+  process_steps: {
+    key: "process_steps", table: "ms_process_steps", title: "Process Steps", singular: "step", sortable: true, titleField: "title", subtitleField: "description", imageField: "image_url", visibilityField: "published",
+    description: "The steps of how you work, shown with an image each in the Process section.",
+    fields: [text("title", "Title", 80), area("description", "Description", 400), image("image_url", "Image"), { name: "published", label: "Show on the website", type: "boolean" }],
+  },
+  gallery_images: {
+    key: "gallery_images", table: "ms_gallery_images", title: "Studio Gallery", singular: "gallery image", sortable: true, titleField: "caption", subtitleField: "alt", imageField: "image_url", visibilityField: "published",
+    description: "Images shown in the Studio Gallery mosaic. Add as many as you like.",
+    fields: [image("image_url", "Image"), text("caption", "Caption", 120), text("alt", "Image description", 200, "Describe the image for visitors who cannot see it."), { name: "published", label: "Show on the website", type: "boolean" }],
+  },
   categories: {
     key: "categories", table: "ms_categories", title: "Portfolio Categories", singular: "category", sortable: true, titleField: "name", subtitleField: "description", slugFrom: "name",
     description: "Groups used to filter the portfolio. A category appears on the website once it has published projects.",

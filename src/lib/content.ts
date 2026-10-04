@@ -2,7 +2,7 @@ import "server-only";
 import { unstable_cache } from "next/cache";
 import { sql } from "./db";
 import type {
-  Blocks, Category, NavItem, ProjectCard, ProjectDetail, Service, Slide, SiteData, SocialLink, Testimonial,
+  Blocks, Category, GalleryImage, NavItem, ProcessStep, ProjectCard, ProjectDetail, Service, Slide, SiteData, SocialLink, Testimonial,
 } from "./types";
 
 export const CONTENT_TAG = "content";
@@ -12,7 +12,8 @@ const projectCardColumns = () => sql`
   p.category_id, c.name as category_name, c.slug as category_slug`;
 
 async function loadSiteData(): Promise<SiteData> {
-  const [blockRows, navigation, slides, services, categories, projects, testimonials, socials] = await Promise.all([
+  const [blockRows, navigation, slides, services, categories, projects, testimonials, socials, process, gallery] = await Promise.all([
+
     sql<{ section: keyof Blocks; data: unknown }[]>`select section, data from ms_content_blocks`,
     sql<NavItem[]>`select id, label, href from ms_navigation_items where visible order by sort_order, label`,
     sql<Slide[]>`select id, image_url, alt, caption, link_href from ms_hero_slides where published order by sort_order`,
@@ -22,9 +23,11 @@ async function loadSiteData(): Promise<SiteData> {
       where p.published order by p.sort_order, p.created_at desc`,
     sql<Testimonial[]>`select id, author_name, author_role, quote, avatar_url from ms_testimonials where published order by sort_order`,
     sql<SocialLink[]>`select id, network, url from ms_social_links where visible and url <> '' order by sort_order`,
+    sql<ProcessStep[]>`select id, title, description, image_url from ms_process_steps where published order by sort_order`,
+    sql<GalleryImage[]>`select id, image_url, alt, caption from ms_gallery_images where published order by sort_order`,
   ]);
   const blocks = Object.fromEntries(blockRows.map((r) => [r.section, r.data])) as unknown as Blocks;
-  return { blocks, navigation, slides, services, categories, projects, testimonials, socials };
+  return { blocks, navigation, slides, services, process, gallery, categories, projects, testimonials, socials };
 }
 
 export const getSiteData = unstable_cache(loadSiteData, ["site-data"], { tags: [CONTENT_TAG], revalidate: 300 });

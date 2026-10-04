@@ -89,6 +89,8 @@ export const SECTIONS: Record<string, SectionDef> = {
       t("precious_title", "Previous Works: title"), t("precious_intro", "Previous Works: introduction"),
       t("ongoing_title", "Ongoing Works: title"), t("ongoing_intro", "Ongoing Works: introduction"),
       t("ready_title", "Ready Works: title"), t("ready_intro", "Ready Works: introduction"),
+      t("process_eyebrow", "Process: small label"), t("process_heading", "Process: heading"), area("process_intro", "Process: introduction", undefined, 500),
+      t("gallery_eyebrow", "Gallery: small label"), t("gallery_heading", "Gallery: heading"), area("gallery_intro", "Gallery: introduction", undefined, 500),
       t("categories_heading", "Categories: heading"), t("spotlight_eyebrow", "Project in focus: small label"),
       t("why_eyebrow", "Why choose us: small label"), t("why_heading", "Why choose us: heading"),
       { name: "why_items", label: "Why choose us: reasons", type: "pairs", help: "Add as many reasons as you like." },

@@ -1,6 +1,6 @@
 import { getSiteData, getProject } from "@/lib/content";
 import { buildMetadata, siteUrl } from "@/lib/seo";
-import { About, CallToAction, Contact, Hero, Services, Spotlight, Testimonials, WhyChoose, Works } from "@/components/site/Sections";
+import { About, CallToAction, Contact, Gallery, Hero, Process, Services, Spotlight, Testimonials, WhyChoose, Works } from "@/components/site/Sections";
 
 export const dynamic = "force-dynamic";
 
@@ -29,8 +29,10 @@ export default async function HomePage() {
       <Hero hero={blocks.hero} slides={data.slides} />
       <About about={blocks.about} />
       <Services services={data.services} headings={blocks.headings} />
+      <Process steps={data.process} headings={blocks.headings} />
       <Works projects={data.projects} categories={data.categories} headings={blocks.headings} />
       {spotlight && <Spotlight project={spotlight} eyebrow={blocks.headings.spotlight_eyebrow} detail={detail ? { services: detail.services_provided, client: detail.client_name, date: detail.project_date } : undefined} />}
+      <Gallery images={data.gallery} headings={blocks.headings} />
       <WhyChoose headings={blocks.headings} />
       <Testimonials items={data.testimonials} headings={blocks.headings} />
       <CallToAction cta={blocks.cta} />

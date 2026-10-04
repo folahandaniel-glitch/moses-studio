@@ -7,7 +7,7 @@ import { ProjectCardView } from "./ProjectCardView";
 import { ContactForm } from "./ContactForm";
 import { WorksExplorer } from "./WorksExplorer";
 import { safeHref, telLink, whatsappLink, formatDate } from "@/lib/utils";
-import { STATUS_LABEL, type Blocks, type Category, type ProjectCard, type Service, type Slide, type SocialLink, type Testimonial } from "@/lib/types";
+import { STATUS_LABEL, type Blocks, type Category, type GalleryImage, type ProcessStep, type ProjectCard, type Service, type Slide, type SocialLink, type Testimonial } from "@/lib/types";
 
 const TONES = [
   { chip: "bg-accent/10 text-accent", bar: "bg-accent", num: "bg-accent text-accent-ink", border: "border-accent" },
@@ -94,12 +94,68 @@ export function Services({ services, headings }: { services: Service[]; headings
             <li key={s.id} className="bg-bg">
               <Reveal delay={(i % 3) * 80} className="h-full">
                 <div className="flex h-full flex-col p-8 sm:p-10">
-                  {s.image_url ? <div className="relative mb-6 aspect-[16/10] overflow-hidden rounded-xl"><Image src={s.image_url} alt="" fill sizes="(min-width:1024px) 30vw, 100vw" className="object-cover" /></div> : <span className={`mb-6 flex h-12 w-12 items-center justify-center rounded-2xl ${TONES[i % 3].chip}`}><Icon name={s.icon} className="h-6 w-6" /></span>}
+                  {s.image_url ? <div className="relative mb-6 aspect-[16/11] overflow-hidden rounded-2xl ring-1 ring-line"><Image src={s.image_url} alt={s.title} fill sizes="(min-width:1024px) 30vw, 100vw" className="object-cover transition duration-700 hover:scale-105" unoptimized={s.image_url.endsWith(".svg")} /></div> : <span className={`mb-6 flex h-12 w-12 items-center justify-center rounded-2xl ${TONES[i % 3].chip}`}><Icon name={s.icon} className="h-6 w-6" /></span>}
                   <h3 className="text-2xl font-medium">{s.title}</h3>
                   <span className={`mt-3 block h-0.5 w-8 rounded-full ${TONES[i % 3].bar}`} />
                   <p className="mt-3 text-muted">{s.short_description}</p>
                   {s.detailed_description && <details className="group mt-4 text-sm"><summary className="cursor-pointer font-semibold text-accent marker:content-none">Learn more</summary><p className="mt-3 leading-relaxed text-muted">{s.detailed_description}</p></details>}
                 </div>
+              </Reveal>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
+export function Process({ steps, headings }: { steps: ProcessStep[]; headings: Blocks["headings"] }) {
+  if (!steps.length) return null;
+  return (
+    <section id="process" aria-labelledby="process-h" className="py-24 sm:py-32">
+      <div className="container-page">
+        <Heading eyebrow={headings.process_eyebrow} title={headings.process_heading} intro={headings.process_intro} />
+        <ol className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          {steps.map((st, i) => {
+            const tone = TONES[i % 3];
+            return (
+              <li key={st.id}>
+                <Reveal delay={(i % 4) * 90} className="h-full">
+                  <div className="group flex h-full flex-col">
+                    <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-surface ring-1 ring-line">
+                      {st.image_url && <Image src={st.image_url} alt={st.title} fill sizes="(min-width:1024px) 22vw, (min-width:640px) 45vw, 100vw" className="object-cover transition duration-700 group-hover:scale-105" unoptimized={st.image_url.endsWith(".svg")} />}
+                      <span className={`absolute left-3 top-3 flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold shadow-lg ${tone.num}`}>{String(i + 1).padStart(2, "0")}</span>
+                    </div>
+                    <span className={`mt-6 block h-1 w-10 rounded-full ${tone.bar}`} />
+                    <h3 className="mt-4 text-2xl font-medium">{st.title}</h3>
+                    <p className="mt-2 text-muted">{st.description}</p>
+                  </div>
+                </Reveal>
+              </li>
+            );
+          })}
+        </ol>
+      </div>
+    </section>
+  );
+}
+
+const MOSAIC = ["aspect-[4/5]", "aspect-square", "aspect-[3/2]", "aspect-[4/5]", "aspect-[3/2]", "aspect-square"];
+
+export function Gallery({ images, headings }: { images: GalleryImage[]; headings: Blocks["headings"] }) {
+  if (!images.length) return null;
+  return (
+    <section id="gallery" aria-labelledby="gallery-h" className="bg-gradient-to-b from-accent3/[0.06] to-accent/[0.06] py-24 sm:py-32">
+      <div className="container-page">
+        <Heading eyebrow={headings.gallery_eyebrow} title={headings.gallery_heading} intro={headings.gallery_intro} />
+        <ul className="mt-14 columns-2 gap-4 sm:gap-5 lg:columns-4">
+          {images.map((g, i) => (
+            <li key={g.id} className="mb-4 break-inside-avoid sm:mb-5">
+              <Reveal delay={(i % 4) * 70}>
+                <figure className={`group relative overflow-hidden rounded-2xl bg-surface ring-1 ring-line ${MOSAIC[i % MOSAIC.length]}`}>
+                  <Image src={g.image_url} alt={g.alt || g.caption} fill sizes="(min-width:1024px) 22vw, 45vw" className="object-cover transition duration-700 group-hover:scale-105" unoptimized={g.image_url.endsWith(".svg")} />
+                  {g.caption && <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-4 pt-10 text-sm font-medium text-white opacity-0 transition duration-300 group-hover:opacity-100 group-focus-within:opacity-100">{g.caption}</figcaption>}
+                </figure>
               </Reveal>
             </li>
           ))}

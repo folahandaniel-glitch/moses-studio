@@ -20,19 +20,19 @@
       "color_ready": "#059669"
     },
     "hero": {
-      "eyebrow": "Moses Studio",
-      "heading": "Creative work, crafted with care and clear purpose.",
-      "subtitle": "A creative studio for brands and people who value quality.",
-      "description": "Placeholder introduction. Replace this text from the admin dashboard under Hero.",
-      "primary_label": "View works",
+      "eyebrow": "3D Character & Avatar Studio",
+      "heading": "Characters that stand out on every virtual stage.",
+      "subtitle": "Bespoke 3D characters and avatars, modelled with precision and brought to life.",
+      "description": "From the first sculpt to the finished model, every detail is considered. Tell us your idea and we will help shape it.",
+      "primary_label": "Explore our works",
       "primary_href": "#works",
-      "secondary_label": "Start a conversation",
+      "secondary_label": "Start your project",
       "secondary_href": "#contact"
     },
     "about": {
       "eyebrow": "About",
       "heading": "About Moses Studio",
-      "introduction": "Placeholder introduction. Replace this with a short welcome to your studio from the admin dashboard under About.",
+      "introduction": "Moses Studio creates distinctive 3D characters and avatars for creators, brands and virtual worlds.",
       "biography": "Placeholder biography. Add the real story of Moses Studio here, including how it started and what it stands for.",
       "statement": "Placeholder professional statement. Describe your approach to creative work in a sentence or two.",
       "capabilities": [
@@ -42,17 +42,17 @@
       ],
       "years_experience": "",
       "location": "",
-      "image_url": "",
-      "cta_label": "Work with us",
+      "image_url": "/portfolio/p31.webp",
+      "cta_label": "Start your project",
       "cta_href": "#contact"
     },
     "headings": {
       "services_eyebrow": "Services",
-      "services_heading": "What we can do for you",
-      "services_intro": "Placeholder services are listed below. Replace them with your real services in the admin dashboard.",
+      "services_heading": "What we create for you",
+      "services_intro": "Placeholder services shaped around the studio imagery. Review and replace them in the admin dashboard under Services.",
       "works_eyebrow": "Portfolio",
-      "works_heading": "Selected works",
-      "works_intro": "A growing collection of projects. Filter by category to explore.",
+      "works_heading": "Works that speak for themselves",
+      "works_intro": "A growing collection of characters and avatars. Filter by category to explore.",
       "precious_title": "Previous Works",
       "precious_intro": "Projects we have delivered before.",
       "ongoing_title": "Ongoing Works",
@@ -66,24 +66,30 @@
       "why_items": [
         {
           "title": "Clear communication",
-          "text": "Placeholder reason. Edit this in the admin dashboard."
+          "text": "You are kept informed at every stage, from the first reference to the final delivery."
         },
         {
           "title": "Considered craft",
-          "text": "Placeholder reason. Edit this in the admin dashboard."
+          "text": "Careful modelling, texturing and finishing so every character looks right from every angle."
         },
         {
           "title": "Reliable delivery",
-          "text": "Placeholder reason. Edit this in the admin dashboard."
+          "text": "Clear timelines and organised files, so your project arrives ready to use."
         }
       ],
       "testimonials_eyebrow": "Testimonials",
-      "testimonials_heading": "Kind words from clients"
+      "testimonials_heading": "Kind words from clients",
+      "process_eyebrow": "Our process",
+      "process_heading": "From first idea to finished model",
+      "process_intro": "A clear, collaborative way of working that keeps you informed at every stage.",
+      "gallery_eyebrow": "Studio gallery",
+      "gallery_heading": "A closer look",
+      "gallery_intro": "Highlights from across our recent work."
     },
     "cta": {
-      "heading": "Have a project in mind?",
-      "description": "Tell us what you are planning and we will get back to you.",
-      "button_label": "Get in touch",
+      "heading": "Ready to bring your character to life?",
+      "description": "Tell us about your idea and we will get back to you.",
+      "button_label": "Start your project",
       "button_href": "#contact"
     },
     "contact": {
@@ -137,87 +143,323 @@
   ],
   "services": [
     {
-      "title": "Service one",
-      "short_description": "Placeholder service. Replace with a real service from the admin dashboard.",
-      "icon": "sparkle"
+      "title": "Character Modelling",
+      "short_description": "Original 3D characters sculpted and refined from concept to a clean, production-ready model.",
+      "icon": "sparkle",
+      "image": "/portfolio/p16.webp"
     },
     {
-      "title": "Service two",
-      "short_description": "Placeholder service. Replace with a real service from the admin dashboard.",
-      "icon": "layers"
+      "title": "Texturing & Detail",
+      "short_description": "Rich materials, patterns and surface detail that give every character its own personality.",
+      "icon": "palette",
+      "image": "/portfolio/p18.webp"
     },
     {
-      "title": "Service three",
-      "short_description": "Placeholder service. Replace with a real service from the admin dashboard.",
-      "icon": "compass"
+      "title": "Rigging & Avatar Setup",
+      "short_description": "Characters prepared and posed so they move naturally and work on your chosen platform.",
+      "icon": "layers",
+      "image": "/portfolio/p23.webp"
     }
   ],
   "categories": [
     {
-      "name": "Category one",
-      "slug": "category-one",
-      "description": "Placeholder category. Rename in the admin dashboard."
+      "name": "Original Characters",
+      "slug": "original-characters",
+      "description": "Fully original character designs."
     },
     {
-      "name": "Category two",
-      "slug": "category-two",
-      "description": "Placeholder category. Rename in the admin dashboard."
+      "name": "Avatars",
+      "slug": "avatars",
+      "description": "Characters prepared for virtual worlds."
     },
     {
-      "name": "Category three",
-      "slug": "category-three",
-      "description": "Placeholder category. Rename in the admin dashboard."
+      "name": "Work in Progress",
+      "slug": "work-in-progress",
+      "description": "Models still being sculpted and refined."
     }
   ],
   "slides": [
     {
-      "image_url": "/placeholders/slide-1.svg",
-      "alt": "Placeholder artwork",
-      "caption": "Placeholder slide"
+      "image_url": "/portfolio/p35.webp",
+      "alt": "Stylised leopard avatar in a neon city scene",
+      "caption": "Avatars for virtual worlds"
     },
     {
-      "image_url": "/placeholders/slide-2.svg",
-      "alt": "Placeholder artwork",
-      "caption": "Placeholder slide"
+      "image_url": "/portfolio/p19.webp",
+      "alt": "Leopard avatar in a colourful virtual hangout",
+      "caption": "Characters with personality"
     },
     {
-      "image_url": "/placeholders/slide-3.svg",
-      "alt": "Placeholder artwork",
-      "caption": "Placeholder slide"
+      "image_url": "/portfolio/p33.webp",
+      "alt": "Two stylised wolf character portraits",
+      "caption": "Detail you can see"
+    },
+    {
+      "image_url": "/portfolio/p21.webp",
+      "alt": "Winged character on a dark stage",
+      "caption": "Made to stand out"
     }
   ],
   "projects": [
     {
-      "title": "Sample Project 01",
-      "slug": "sample-project-01",
-      "category": "category-one",
+      "title": "Stage Angel",
+      "slug": "stage-angel",
+      "category": "original-characters",
       "status": "PRECIOUS",
-      "image": "/placeholders/work-1.svg",
-      "featured": true
+      "image": "/portfolio/p21.webp",
+      "gallery": [],
+      "featured": true,
+      "description": "A winged character presented on a dramatic dark stage."
     },
     {
-      "title": "Sample Project 02",
-      "slug": "sample-project-02",
-      "category": "category-two",
+      "title": "Gilded Knight",
+      "slug": "gilded-knight",
+      "category": "original-characters",
       "status": "PRECIOUS",
-      "image": "/placeholders/work-2.svg",
-      "featured": false
+      "image": "/portfolio/p06.webp",
+      "gallery": [
+        "/portfolio/p03.webp",
+        "/portfolio/p04.webp",
+        "/portfolio/p05.webp",
+        "/portfolio/p07.webp",
+        "/portfolio/p09.webp"
+      ],
+      "featured": true,
+      "description": "A caped knight character developed from base mesh to finished costume."
     },
     {
-      "title": "Sample Project 03",
-      "slug": "sample-project-03",
-      "category": "category-three",
+      "title": "Violet Wing Avatar",
+      "slug": "violet-wing-avatar",
+      "category": "avatars",
+      "status": "PRECIOUS",
+      "image": "/portfolio/p10.webp",
+      "gallery": [
+        "/portfolio/p08.webp",
+        "/portfolio/p11.webp"
+      ],
+      "featured": false,
+      "description": "A white-haired avatar with a violet winged top, shown from several angles."
+    },
+    {
+      "title": "Sunny Fox",
+      "slug": "sunny-fox",
+      "category": "original-characters",
+      "status": "PRECIOUS",
+      "image": "/portfolio/p14.webp",
+      "gallery": [],
+      "featured": false,
+      "description": "A warm, expressive fox character illustration."
+    },
+    {
+      "title": "Tattooed Warrior",
+      "slug": "tattooed-warrior",
+      "category": "work-in-progress",
       "status": "ONGOING",
-      "image": "/placeholders/work-3.svg",
-      "featured": false
+      "image": "/portfolio/p18.webp",
+      "gallery": [
+        "/portfolio/p32.webp",
+        "/portfolio/p29.webp"
+      ],
+      "featured": false,
+      "description": "A detailed character with glowing markings, currently being refined."
     },
     {
-      "title": "Sample Project 04",
-      "slug": "sample-project-04",
-      "category": "category-one",
+      "title": "Visor Cat",
+      "slug": "visor-cat",
+      "category": "work-in-progress",
+      "status": "ONGOING",
+      "image": "/portfolio/p23.webp",
+      "gallery": [
+        "/portfolio/p24.webp"
+      ],
+      "featured": false,
+      "description": "A cat character with a glowing visor, in the rigging stage."
+    },
+    {
+      "title": "Clay Base Meshes",
+      "slug": "clay-base-meshes",
+      "category": "work-in-progress",
+      "status": "ONGOING",
+      "image": "/portfolio/p16.webp",
+      "gallery": [
+        "/portfolio/p12.webp",
+        "/portfolio/p13.webp",
+        "/portfolio/p15.webp"
+      ],
+      "featured": false,
+      "description": "Neutral clay base models used to refine proportions before texturing."
+    },
+    {
+      "title": "Plaid Wolf Avatar",
+      "slug": "plaid-wolf-avatar",
+      "category": "work-in-progress",
+      "status": "ONGOING",
+      "image": "/portfolio/p36.webp",
+      "gallery": [
+        "/portfolio/p39.webp"
+      ],
+      "featured": false,
+      "description": "A wolf avatar in a red plaid shirt, set up for posing."
+    },
+    {
+      "title": "Monochrome Streetwear",
+      "slug": "monochrome-streetwear",
+      "category": "avatars",
       "status": "READY",
-      "image": "/placeholders/work-4.svg",
-      "featured": false
+      "image": "/portfolio/p17.webp",
+      "gallery": [
+        "/portfolio/p22.webp"
+      ],
+      "featured": false,
+      "description": "A clean avatar in black streetwear, ready to use."
+    },
+    {
+      "title": "Midnight Coat",
+      "slug": "midnight-coat",
+      "category": "original-characters",
+      "status": "READY",
+      "image": "/portfolio/p31.webp",
+      "gallery": [],
+      "featured": false,
+      "description": "A character in a long black coat with fine metal detail."
+    },
+    {
+      "title": "Wolf Duo",
+      "slug": "wolf-duo",
+      "category": "original-characters",
+      "status": "READY",
+      "image": "/portfolio/p33.webp",
+      "gallery": [],
+      "featured": false,
+      "description": "Two wolf character portraits with goggles and bold colour."
+    },
+    {
+      "title": "Neon City Leopard",
+      "slug": "neon-city-leopard",
+      "category": "avatars",
+      "status": "READY",
+      "image": "/portfolio/p35.webp",
+      "gallery": [
+        "/portfolio/p19.webp"
+      ],
+      "featured": false,
+      "description": "A leopard avatar photographed in a virtual neon city."
+    },
+    {
+      "title": "Amber Fox",
+      "slug": "amber-fox",
+      "category": "avatars",
+      "status": "READY",
+      "image": "/portfolio/p38.webp",
+      "gallery": [
+        "/portfolio/p20.webp"
+      ],
+      "featured": false,
+      "description": "A friendly orange fox avatar, shown from behind."
+    },
+    {
+      "title": "Azure Dragon",
+      "slug": "azure-dragon",
+      "category": "original-characters",
+      "status": "READY",
+      "image": "/portfolio/p40.webp",
+      "gallery": [],
+      "featured": false,
+      "description": "A blue furred dragon character."
+    },
+    {
+      "title": "Crimson Guardian",
+      "slug": "crimson-guardian",
+      "category": "original-characters",
+      "status": "READY",
+      "image": "/portfolio/p26.webp",
+      "gallery": [],
+      "featured": false,
+      "description": "A red and black armoured creature character."
+    }
+  ],
+  "process": [
+    {
+      "title": "Discover",
+      "text": "We start with your idea, references and goals so the character begins with a clear direction.",
+      "image": "/portfolio/p14.webp"
+    },
+    {
+      "title": "Model",
+      "text": "The form is built and refined until the proportions and silhouette feel right.",
+      "image": "/portfolio/p01.webp"
+    },
+    {
+      "title": "Detail & texture",
+      "text": "Clothing, materials and surface detail bring the character to life.",
+      "image": "/portfolio/p04.webp"
+    },
+    {
+      "title": "Finish & deliver",
+      "text": "Final checks, posing and tidy files, ready for you to use.",
+      "image": "/portfolio/p07.webp"
+    }
+  ],
+  "gallery": [
+    {
+      "image": "/portfolio/p14.webp",
+      "alt": "Illustrated orange fox sitting",
+      "caption": "Fox illustration"
+    },
+    {
+      "image": "/portfolio/p21.webp",
+      "alt": "Winged character on a dark stage",
+      "caption": "Stage angel"
+    },
+    {
+      "image": "/portfolio/p33.webp",
+      "alt": "Wolf character portraits",
+      "caption": "Wolf portraits"
+    },
+    {
+      "image": "/portfolio/p10.webp",
+      "alt": "White-haired avatar with violet top",
+      "caption": "Violet wing avatar"
+    },
+    {
+      "image": "/portfolio/p35.webp",
+      "alt": "Leopard avatar close up",
+      "caption": "Neon city leopard"
+    },
+    {
+      "image": "/portfolio/p18.webp",
+      "alt": "Detailed muscular character with glowing tattoos",
+      "caption": "Detailed anatomy"
+    },
+    {
+      "image": "/portfolio/p17.webp",
+      "alt": "Avatar in monochrome streetwear",
+      "caption": "Streetwear avatar"
+    },
+    {
+      "image": "/portfolio/p26.webp",
+      "alt": "Red and black character model",
+      "caption": "Crimson guardian"
+    },
+    {
+      "image": "/portfolio/p31.webp",
+      "alt": "Character in a long black coat",
+      "caption": "Midnight coat"
+    },
+    {
+      "image": "/portfolio/p40.webp",
+      "alt": "Blue furred dragon character",
+      "caption": "Azure dragon"
+    },
+    {
+      "image": "/portfolio/p38.webp",
+      "alt": "Orange fox character, rear view",
+      "caption": "Amber fox"
+    },
+    {
+      "image": "/portfolio/p19.webp",
+      "alt": "Leopard avatar in a virtual hangout",
+      "caption": "Virtual hangout"
     }
   ]
 }
