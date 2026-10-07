@@ -1,6 +1,7 @@
 import "server-only";
 import { unstable_cache } from "next/cache";
 import { sql } from "./db";
+import defaults from "../../db/defaults.json";
 import type {
   Blocks, Category, GalleryImage, NavItem, ProcessStep, ProjectCard, ProjectDetail, Service, Slide, SiteData, SocialLink, Testimonial,
 } from "./types";
@@ -11,22 +12,39 @@ const projectCardColumns = () => sql`
   p.id, p.title, p.slug, p.short_description, p.status, p.featured, p.featured_image_url,
   p.category_id, c.name as category_name, c.slug as category_slug`;
 
+/** Optional content must never take the whole page down: log the problem and show an empty list instead. */
+async function optional<T>(label: string, query: PromiseLike<T[]>): Promise<T[]> {
+  try {
+    return await query;
+  } catch (err) {
+    console.error(`[content] ${label} unavailable:`, err instanceof Error ? err.message : err);
+    return [];
+  }
+}
+
+/** Saved blocks win; the shipped defaults fill any section or key that is missing (for example after an upgrade). */
+function withDefaults(rows: { section: string; data: unknown }[]): Blocks {
+  const saved = Object.fromEntries(rows.map((r) => [r.section, r.data as Record<string, unknown>]));
+  const merged: Record<string, unknown> = {};
+  for (const [section, base] of Object.entries(defaults.blocks)) merged[section] = { ...(base as object), ...(saved[section] ?? {}) };
+  return merged as unknown as Blocks;
+}
+
 async function loadSiteData(): Promise<SiteData> {
   const [blockRows, navigation, slides, services, categories, projects, testimonials, socials, process, gallery] = await Promise.all([
-
-    sql<{ section: keyof Blocks; data: unknown }[]>`select section, data from ms_content_blocks`,
-    sql<NavItem[]>`select id, label, href from ms_navigation_items where visible order by sort_order, label`,
-    sql<Slide[]>`select id, image_url, alt, caption, link_href from ms_hero_slides where published order by sort_order`,
-    sql<Service[]>`select id, title, short_description, detailed_description, icon, image_url from ms_services where published order by sort_order`,
-    sql<Category[]>`select id, name, slug, description from ms_categories order by sort_order, name`,
-    sql<ProjectCard[]>`select ${projectCardColumns()} from ms_projects p left join ms_categories c on c.id = p.category_id
-      where p.published order by p.sort_order, p.created_at desc`,
-    sql<Testimonial[]>`select id, author_name, author_role, quote, avatar_url from ms_testimonials where published order by sort_order`,
-    sql<SocialLink[]>`select id, network, url from ms_social_links where visible and url <> '' order by sort_order`,
-    sql<ProcessStep[]>`select id, title, description, image_url from ms_process_steps where published order by sort_order`,
-    sql<GalleryImage[]>`select id, image_url, alt, caption from ms_gallery_images where published order by sort_order`,
+    optional("content blocks", sql<{ section: keyof Blocks; data: unknown }[]>`select section, data from ms_content_blocks`),
+    optional("navigation", sql<NavItem[]>`select id, label, href from ms_navigation_items where visible order by sort_order, label`),
+    optional("slides", sql<Slide[]>`select id, image_url, alt, caption, link_href from ms_hero_slides where published order by sort_order`),
+    optional("services", sql<Service[]>`select id, title, short_description, detailed_description, icon, image_url from ms_services where published order by sort_order`),
+    optional("categories", sql<Category[]>`select id, name, slug, description from ms_categories order by sort_order, name`),
+    optional("projects", sql<ProjectCard[]>`select ${projectCardColumns()} from ms_projects p left join ms_categories c on c.id = p.category_id
+      where p.published order by p.sort_order, p.created_at desc`),
+    optional("testimonials", sql<Testimonial[]>`select id, author_name, author_role, quote, avatar_url from ms_testimonials where published order by sort_order`),
+    optional("social links", sql<SocialLink[]>`select id, network, url from ms_social_links where visible and url <> '' order by sort_order`),
+    optional("process steps", sql<ProcessStep[]>`select id, title, description, image_url from ms_process_steps where published order by sort_order`),
+    optional("gallery", sql<GalleryImage[]>`select id, image_url, alt, caption from ms_gallery_images where published order by sort_order`),
   ]);
-  const blocks = Object.fromEntries(blockRows.map((r) => [r.section, r.data])) as unknown as Blocks;
+  const blocks = withDefaults(blockRows);
   return { blocks, navigation, slides, services, process, gallery, categories, projects, testimonials, socials };
 }
 
