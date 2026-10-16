@@ -1,6 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
 import Image from "next/image";
+import { prepareImage } from "@/lib/prepare-image";
 
 interface MediaItem { id: string; url: string; filename: string }
 
@@ -15,7 +16,7 @@ export function ImageField({ name, label, defaultValue = "", help, compact = fal
   async function upload(file: File) {
     setBusy(true); setError("");
     const body = new FormData();
-    body.append("file", file);
+    body.append("file", await prepareImage(file));
     try {
       const res = await fetch("/api/admin/upload", { method: "POST", body });
       const json = await res.json().catch(() => ({}));

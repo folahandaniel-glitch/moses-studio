@@ -1,6 +1,7 @@
 "use client";
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { prepareImage } from "@/lib/prepare-image";
 
 export function UploadButton() {
   const input = useRef<HTMLInputElement>(null);
@@ -13,7 +14,7 @@ export function UploadButton() {
     setBusy(true); setError("");
     for (const file of Array.from(files)) {
       const body = new FormData();
-      body.append("file", file);
+      body.append("file", await prepareImage(file));
       const res = await fetch("/api/admin/upload", { method: "POST", body }).catch(() => null);
       if (!res || !res.ok) {
         const json = res ? await res.json().catch(() => ({})) : {};

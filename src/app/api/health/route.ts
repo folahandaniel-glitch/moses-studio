@@ -3,7 +3,7 @@ import { sql } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
-const TABLES = ["ms_content_blocks", "ms_projects", "ms_hero_slides", "ms_services", "ms_process_steps", "ms_gallery_images", "ms_admin_users"] as const;
+const TABLES = ["ms_content_blocks", "ms_projects", "ms_hero_slides", "ms_services", "ms_process_steps", "ms_gallery_images", "ms_media_files", "ms_admin_users"] as const;
 
 /** Public, secret-free status page: open /api/health to see whether the database and every table respond. */
 export async function GET() {

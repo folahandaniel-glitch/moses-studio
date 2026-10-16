@@ -102,3 +102,7 @@ Every table and type of this app is prefixed `ms_` (for example `ms_projects`), 
 ## Placeholder portfolio images
 
 `public/portfolio/` holds the placeholder pictures used by the sample projects, hero carousel, services, process steps and gallery. Replace any of them from the dashboard (Portfolio, Hero Carousel, Services, Process Steps, Studio Gallery, About). Images in `public/portfolio/` can be deleted once nothing references them.
+
+## Image storage
+
+Uploaded images are optimised to WebP and stored in PostgreSQL by default (table `ms_media_files`, served from `/media/<id>`), so uploads work without any extra service. If `BLOB_READ_WRITE_TOKEN` (a **public** Vercel Blob store) is set, new uploads go to Blob storage instead, and the database is used as a fallback if Blob fails. Uploads are limited to 4 MB per file after the browser shrinks large photos.
